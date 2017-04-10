@@ -1,6 +1,6 @@
 <?php
 
-namespace __ONYX_Namespace;
+namespace Whalephant;
 
 use Puzzle\Configuration;
 use Pimple\Container;
@@ -15,9 +15,9 @@ class Console
     {
         $this->configuration = $container['configuration'];
 
-        $this->app = new \Onyx\Console\Application();
+        $this->app = new Console\Application();
 
-        $this->app->add(new Console\HelloWorld());
+        $this->app->add(new Console\Generate($container['twig']));
     }
 
     public function run(): void

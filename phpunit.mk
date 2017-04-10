@@ -1,8 +1,8 @@
 #------------------------------------------------------------------------------
 # PHPUnit
 #------------------------------------------------------------------------------
-IMAGE_NAME=onyx/skeleton/phpunit
-CONTAINER_SOURCE_PATH=/usr/src/onyx
+IMAGE_NAME=whalephant/phpunit
+CONTAINER_SOURCE_PATH=/usr/src/whalephant
 
 phpunit = docker run -it --rm --name phpunit \
 	                 -v ${HOST_SOURCE_PATH}:${CONTAINER_SOURCE_PATH} \

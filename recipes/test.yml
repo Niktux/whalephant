@@ -1,0 +1,8 @@
+php: 
+    version: 7.1
+    variant: cli
+extensions:
+    - amqp
+    - zlib
+    - xdebug
+    - meminfo

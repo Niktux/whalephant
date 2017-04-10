@@ -1,6 +1,6 @@
 <?php
 
-namespace __ONYX_Namespace;
+namespace Whalephant;
 
 use PHPUnit\Framework\TestCase;
 

@@ -27,27 +27,24 @@ endif
 #------------------------------------------------------------------------------
 # Default target
 #------------------------------------------------------------------------------
-init: var install-deps webpack config gitignore
+init: var install-deps config
 
 #------------------------------------------------------------------------------
 # Includes
 #------------------------------------------------------------------------------
 -include vendor/onyx/core/wizards.mk
--include docker/helpers.mk
+-include commands.mk
 -include phpunit.mk
-include webpack.mk
-include qa.mk
-
 
 #------------------------------------------------------------------------------
 # High level targets
 #------------------------------------------------------------------------------
-install-deps: composer-install npm-install
+install-deps: composer-install
 
 var:
 	mkdir -m a+w var
 
-.PHONY: install install-deps config composer composer-install composer-dumpautoload uninstall clean remove-deps
+.PHONY: install-deps config composer composer-install composer-update composer-dumpautoload uninstall clean remove-deps
 
 #------------------------------------------------------------------------------
 # Karma
@@ -64,6 +61,8 @@ karma:
 #------------------------------------------------------------------------------
 # Composer
 #------------------------------------------------------------------------------
+composer_exec = php composer.phar $1
+
 composer: composer.phar
 	php composer.phar $(CLI_ARGS) $(COMPOSER_ARGS)
 
@@ -71,16 +70,18 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 composer-install: composer.phar
-	php composer.phar install --ignore-platform-reqs
+	$(call composer_exec, install --ignore-platform-reqs)
+
+composer-update: composer.phar
+	$(call composer_exec, update --ignore-platform-reqs)
 
 composer-dumpautoload: composer.phar
-	php composer.phar dumpautoload
+	$(call composer_exec, dumpautoload)
 
 #------------------------------------------------------------------------------
 # Cleaning targets
 #------------------------------------------------------------------------------
 uninstall: clean remove-deps
-	rm -rf www/assets
 	rm -f composer.lock
 	rm -f config/built-in/*.yml
 
@@ -90,6 +91,3 @@ clean:
 
 remove-deps:
 	rm -rf vendor
-
-gitignore:
-	sed '/^composer.lock #.*$$/d' -i .gitignore
