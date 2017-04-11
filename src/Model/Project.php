@@ -8,17 +8,28 @@ class Project
 {
     private
         $name,
-        $systemPackages;
+        $recipes,
+        $extensions,
+        $php;
     
-    public function __construct(string $name, array $systemPackages = [])
+    public function __construct(string $name, Php $php)
     {
         $this->name = $name;
-        $this->systemPackages = $systemPackages;
+        $this->recipes = [];
+        $this->extensions = [];
+        $this->php = $php;
     }
     
-    public function addSystemPackage(string $package): self
+    public function addRecipe(Recipe $recipe): self
     {
-        $this->systemPackages[] = $package;
+        $this->recipes[] = $recipe;
+        
+        return $this;
+    }
+    
+    public function addExtension(Extension $extension): self
+    {
+        $this->extensions[] = $extension;
         
         return $this;
     }
@@ -28,8 +39,44 @@ class Project
         return $this->name;
     }
     
-    public function getSystemPackages(): array
+    public function getRecipe(): Recipe
     {
-        return $this->systemPackages;
+        $merged = new Recipe();
+        
+        foreach($this->recipes as $recipe)
+        {
+            $merged = $merged->mergeWith($recipe);
+        }
+            
+        foreach($this->extensions as $extension)
+        {
+            $merged = $merged->mergeWith($extension->getRecipe());
+        }
+        
+        $merged->pack();
+        
+        $this->checkPhpRequirements($merged);
+        
+        return $merged;
+    }
+    
+    private function checkPhpRequirements(Recipe $recipe): void
+    {
+        if(! $this->php->isCompatibleWith($recipe->getMinimumPhp(), $recipe->getMaximumPhp()))
+        {
+            $min = $recipe->getMinimumPhp();
+            $max = $recipe->getMaximumPhp();
+            
+            throw new \InvalidArgumentException(sprintf(
+                "PHP %s is incompatible with requirements (%s)",
+                $this->php->version,
+                implode(", ", array_filter([($min ? ">= $min" : ""), ($max ? "<= $max": "")]))
+            ));
+        }
+    }
+    
+    public function getPhp(): Php
+    {
+        return $this->php;
     }
 }

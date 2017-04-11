@@ -20,6 +20,9 @@ only-test:
 	docker build -t whalephant-generated .
 	docker run -it --rm --name whalephant_test whalephant-generated php -i
 
+connect:
+	docker run -it --rm --name whalephant_test whalephant-generated /bin/bash
+
 check:
 	docker run -it --rm --name whalephant_test whalephant-generated php -r 'phpinfo(INFO_MODULES);'
 

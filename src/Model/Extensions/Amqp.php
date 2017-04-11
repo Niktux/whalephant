@@ -4,20 +4,17 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
-class Amqp extends AbstractExtension
+use Whalephant\Model\Recipe;
+use Whalephant\Model\Extension;
+
+class Amqp implements Extension
 {
-    public function getName(): ?string
+    public function getRecipe(): Recipe
     {
-        return "amqp";
-    }
-    
-    public function getPeclInstall(): ?string
-    {
-        return "amqp-1.7.0";
-    }
-    
-    public function macroBeforePeclInstall(): ?string
-    {
-        return 'amqp';
+        return (new Recipe())
+            ->addMacroNameForIncludingSpecificCode('amqp')
+            ->addPeclPackageToInstall('amqp-1.7.0')
+            ->addPeclPackageToEnable('amqp')
+        ;
     }
 }

@@ -4,15 +4,20 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
-class Meminfo extends AbstractExtension
+use Whalephant\Model\Recipe;
+use Whalephant\Model\Extension;
+
+class Meminfo implements Extension
 {
-    public function getSystemPackages(): iterable
+    public function getRecipe(): Recipe
     {
-        return ['php5-dev', 'git', 'unzip'];
-    }
-    
-    public function macroBeforePeclInstall(): ?string
-    {
-        return 'meminfo';
+        return (new Recipe())
+            ->maximumPhp('5.6')
+            ->addPackage('php5-dev')
+            ->addPackage('git')
+            ->addPackage('unzip')
+            ->addMacroNameForIncludingSpecificCode('meminfo')
+            ->addIniDirective('extension=meminfo.so')
+        ;
     }
 }

@@ -4,15 +4,16 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
-class Zlib extends AbstractExtension
+use Whalephant\Model\Recipe;
+use Whalephant\Model\Extension;
+
+class Zlib implements Extension
 {
-    public function getSystemPackages(): iterable
+    public function getRecipe(): Recipe
     {
-        return ['zlib1g-dev'];
-    }
-    
-    public function macroBeforePeclInstall(): ?string
-    {
-        return 'zlib';
+        return (new Recipe())
+            ->addPackage('zlib1g-dev')
+            ->addMacroNameForIncludingSpecificCode('zlib')
+        ;
     }
 }

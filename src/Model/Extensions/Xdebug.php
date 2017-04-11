@@ -4,15 +4,16 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
-class Xdebug extends AbstractExtension
+use Whalephant\Model\Recipe;
+use Whalephant\Model\Extension;
+
+class XDebug implements Extension
 {
-    public function getName(): ?string
+    public function getRecipe(): Recipe
     {
-        return "xdebug";
-    }
-    
-    public function getPeclInstall(): ?string
-    {
-        return "xdebug";
+        return (new Recipe())
+            ->addPeclPackageToInstall('xdebug')
+            ->addPeclPackageToEnable('xdebug')
+        ;
     }
 }

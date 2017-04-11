@@ -34,28 +34,31 @@ class Generate extends AbstractCommand
     {
         $output->writeln('Generating Dockerfile ...');
         
-        $project = new Project('whalephant-test');
+        $project = new Project('whalephant-test', new Php('5.6'));
         
-        $pecl = new Pecl();
-        $pecl->addExtension(new Xdebug());
-        $pecl->addExtension(new Amqp());
-        $pecl->addExtension(new Zlib());
-        $pecl->addExtension(new Meminfo());
+        $project->addExtension(new Xdebug());
+        $project->addExtension(new Amqp());
+        $project->addExtension(new Zlib());
+        $project->addExtension(new Meminfo());
         
-        $packages = array_unique(
-            array_merge($project->getSystemPackages(), $pecl->getSystemPackages())
-        );
+        $recipe = $project->getRecipe();
         
         $dockerfile = $this->twig->render('layout.twig', [
-            'php' => new Php('5.6'),
+            'php' => $project->getPhp(),
             'system' => [
-                'packages' => $packages,
+                'packages' => $recipe->getPackages(),
             ],
-            'pecl' => $pecl,
+            'pecl' => [
+                'install' => $recipe->getPeclPackagesToInstall(),
+                'enable' => $recipe->getPeclPackagesToEnable(),
+            ],
+            'macroList' => $recipe->getMacros(),
             'project' => $project,
         ]);
         
         file_put_contents("Dockerfile", $dockerfile);
-        file_put_contents("php.ini", "");
+        file_put_contents("php.ini",
+            implode("\n", $recipe->getIniDirectives()) . "\n"
+        );
     }
 }

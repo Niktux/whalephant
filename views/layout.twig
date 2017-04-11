@@ -17,12 +17,12 @@ RUN apt-get update && \
     && apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-{% for macroName in pecl.macroList %}
+{% for macroName in macroList %}
 {{ attribute(macro, macroName) }}
 {% endfor %}
 
-RUN pecl install {% for install in pecl.installList %}{{ install }} {% endfor %} && \
-    docker-php-ext-enable {% for enable in pecl.enableList %}{{ enable }} {% endfor %}
+RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %} && \
+    docker-php-ext-enable {% for enable in pecl.enable %}{{ enable }} {% endfor %}
 
 {% block end %}
 WORKDIR /var/www/{{ project.name }}

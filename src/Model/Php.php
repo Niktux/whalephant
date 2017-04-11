@@ -6,11 +6,121 @@ class Php
 {
     public
         $version,
+        $major,
+        $minor,
+        $patch,
         $variant;
     
     public function __construct($version = '7', $variant = 'cli')
     {
+        list($this->major, $this->minor, $this->patch) = $this->extractDetailsFromVersion($version);
         $this->version= $version;
         $this->variant = $variant;
+    }
+    
+    private function extractDetailsFromVersion($version, $undefinedIsLatest = true)
+    {
+        $parts = explode('.', $version);
+        
+        $major = 7;
+        $minor = $undefinedIsLatest ? false : 0;
+        $patch = $undefinedIsLatest ? false : 0;
+        
+        if(is_numeric($parts[0]))
+        {
+            $major = (int) $parts[0];
+        }
+        
+        if(isset($parts[1]) && is_numeric($parts[1]))
+        {
+            $minor = (int) $parts[1];
+        }
+
+        if(isset($parts[2]) && is_numeric($parts[2]))
+        {
+            $patch = (int) $parts[2];
+        }
+        
+        return [$major, $minor, $patch];
+    }
+    
+    public function isCompatibleWith($versionAtLeast = null, $versionAtMost = null)
+    {
+        $atLeast = true;
+        $atMost = true;
+        
+        if($versionAtLeast !== null)
+        {
+            $atLeast = $this->isGreaterOrEqualThan($versionAtLeast);
+        }
+        
+        if($versionAtMost!== null)
+        {
+            $atMost = $this->isLowerOrEqualThan($versionAtMost);
+        }
+        
+        return $atLeast && $atMost;
+    }
+        
+    public function isGreaterOrEqualThan($version)
+    {
+        list($majorAtLeast, $minorAtLeast, $patchAtLeast) = $this->extractDetailsFromVersion($version, false);
+        
+        if($this->major !== $majorAtLeast)
+        {
+            return $this->major > $majorAtLeast;
+        }
+        
+        if($this->minor === false)
+        {
+            // false means latest => the highest possible version
+            return true;
+        }
+        
+        if($this->minor !== $minorAtLeast)
+        {
+            return $this->minor > $minorAtLeast;
+        }
+        
+        // Here we have same major and same minor, let's compare patches
+        if($this->patch === false)
+        {
+            // false means latest => the highest possible version
+            return true;
+        }
+        
+        return $this->patch >= $patchAtLeast;
+    }
+    
+    public function isLowerOrEqualThan($version)
+    {
+        list($majorAtMost, $minorAtMost, $patchAtMost) = $this->extractDetailsFromVersion($version);
+        
+        if($this->major !== $majorAtMost)
+        {
+            return $this->major < $majorAtMost;
+        }
+        
+        // Same major
+        
+        if($minorAtMost === false)
+        {
+            // false means latest => the highest possible version
+            return true;
+        }
+        
+        if($this->minor !== $minorAtMost)
+        {
+            return $this->minor < $minorAtMost;
+        }
+        
+        // Here we have same major and same minor, let's compare patches
+        if($patchAtMost === false)
+        {
+            // false means latest => the highest possible version
+            return true;
+        }
+        
+        return $this->patch <= $patchAtMost;
     }
 }
