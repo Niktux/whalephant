@@ -11,17 +11,25 @@ use Whalephant\Model\Php;
 use Whalephant\Model\Extensions\Amqp;
 use Whalephant\Model\Extensions\Zlib;
 use Whalephant\Model\Extensions\Meminfo;
+use Whalephant\Services\ProjectBuilder;
+use Puzzle\Configuration\Yaml;
+use Gaufrette\Filesystem;
+use Gaufrette\Adapter\Local;
+use Puzzle\PrefixedConfiguration;
+use Whalephant\Services\ExtensionProviders\ArrayProvider;
 
 class Generate extends AbstractCommand
 {
     private
+        $rootPath,
         $twig;
     
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(\Twig_Environment $twig, string $rootPath)
     {
         parent::__construct();
         
         $this->twig = $twig;
+        $this->rootPath = $rootPath;
     }
     
     protected function configure()
@@ -33,13 +41,14 @@ class Generate extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Generating Dockerfile ...');
+
+        $config = new Yaml(new Filesystem(new Local($this->rootPath . 'recipes/')));
+        $config = new PrefixedConfiguration($config, 'test');
         
-        $project = new Project('whalephant-test', new Php('5.6'));
+        $extensionProvider = new ArrayProvider();
         
-        $project->addExtension(new Xdebug());
-        $project->addExtension(new Amqp());
-        $project->addExtension(new Zlib());
-        $project->addExtension(new Meminfo());
+        $builder = new ProjectBuilder($config, $extensionProvider);
+        $project = $builder->build();
         
         $recipe = $project->getRecipe();
         

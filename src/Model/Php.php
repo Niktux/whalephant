@@ -11,14 +11,14 @@ class Php
         $patch,
         $variant;
     
-    public function __construct($version = '7', $variant = 'cli')
+    public function __construct(string $version = '7', string $variant = 'cli')
     {
         list($this->major, $this->minor, $this->patch) = $this->extractDetailsFromVersion($version);
         $this->version= $version;
         $this->variant = $variant;
     }
     
-    private function extractDetailsFromVersion($version, $undefinedIsLatest = true)
+    private function extractDetailsFromVersion(string $version, bool $undefinedIsLatest = true): array
     {
         $parts = explode('.', $version);
         
@@ -44,7 +44,7 @@ class Php
         return [$major, $minor, $patch];
     }
     
-    public function isCompatibleWith($versionAtLeast = null, $versionAtMost = null)
+    public function isCompatibleWith(string $versionAtLeast = null, string $versionAtMost = null): bool
     {
         $atLeast = true;
         $atMost = true;
@@ -62,7 +62,7 @@ class Php
         return $atLeast && $atMost;
     }
         
-    public function isGreaterOrEqualThan($version)
+    public function isGreaterOrEqualThan(string $version): bool
     {
         list($majorAtLeast, $minorAtLeast, $patchAtLeast) = $this->extractDetailsFromVersion($version, false);
         
@@ -92,7 +92,7 @@ class Php
         return $this->patch >= $patchAtLeast;
     }
     
-    public function isLowerOrEqualThan($version)
+    public function isLowerOrEqualThan(string $version): bool
     {
         list($majorAtMost, $minorAtMost, $patchAtMost) = $this->extractDetailsFromVersion($version);
         

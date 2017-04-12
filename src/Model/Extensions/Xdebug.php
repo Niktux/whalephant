@@ -7,8 +7,13 @@ namespace Whalephant\Model\Extensions;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 
-class XDebug implements Extension
+class Xdebug implements Extension
 {
+    public function getName(): string
+    {
+        return "xdebug";
+    }
+    
     public function getRecipe(): Recipe
     {
         return (new Recipe())

@@ -33,49 +33,49 @@ class Recipe
         $this->ini = [];
     }
     
-    public function minimumPhp($version): self
+    public function minimumPhp(string $version): self
     {
         $this->requires['php']['min'] = $version;
         
         return $this;
     }
     
-    public function maximumPhp($version): self
+    public function maximumPhp(string $version): self
     {
         $this->requires['php']['max'] = $version;
         
         return $this;
     }
     
-    public function addPackage($packageName): self
+    public function addPackage(string $packageName): self
     {
         $this->packages[] = $packageName;
         
         return $this;
     }
     
-    public function addMacroNameForIncludingSpecificCode($macro): self
+    public function addMacroNameForIncludingSpecificCode(string $macro): self
     {
         $this->macros[] = $macro;
         
         return $this;
     }
     
-    public function addPeclPackageToInstall($package): self
+    public function addPeclPackageToInstall(string $package): self
     {
         $this->pecl['install'][] = $package;
         
         return $this;
     }
     
-    public function addPeclPackageToEnable($package): self
+    public function addPeclPackageToEnable(string $package): self
     {
         $this->pecl['enable'][] = $package;
         
         return $this;
     }
     
-    public function addIniDirective($line): self
+    public function addIniDirective(string $line): self
     {
         $this->ini[] = $line;
         

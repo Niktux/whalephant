@@ -9,6 +9,11 @@ use Whalephant\Model\Extension;
 
 class Zlib implements Extension
 {
+    public function getName(): string
+    {
+        return "zlib";
+    }
+    
     public function getRecipe(): Recipe
     {
         return (new Recipe())

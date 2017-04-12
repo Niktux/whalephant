@@ -14,7 +14,8 @@
         "monolog/monolog": "~1.22",
         "symfony/console" : "~3.2",
         "symfony/twig-bridge" : "~3.2",
-        "puzzle/pieces": "~2.1"
+        "puzzle/pieces": "~2.1",
+        "league/flysystem": "~1.0"
     },
     "autoload": {
         "psr-4": {

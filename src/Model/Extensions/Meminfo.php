@@ -9,6 +9,11 @@ use Whalephant\Model\Extension;
 
 class Meminfo implements Extension
 {
+    public function getName(): string
+    {
+        return "meminfo";
+    }
+    
     public function getRecipe(): Recipe
     {
         return (new Recipe())

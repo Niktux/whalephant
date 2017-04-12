@@ -9,6 +9,11 @@ use Whalephant\Model\Extension;
 
 class Amqp implements Extension
 {
+    public function getName(): string
+    {
+        return "amqp";
+    }
+    
     public function getRecipe(): Recipe
     {
         return (new Recipe())
