@@ -11,7 +11,7 @@ export USER_ID
 export GROUP_ID
 
 # Spread cli arguments for composer & phpunit
-ifneq (,$(filter $(firstword $(MAKECMDGOALS)),composer phpunit))
+ifneq (,$(filter $(firstword $(MAKECMDGOALS)),composer phpunit, gen))
     CLI_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
     $(eval $(CLI_ARGS):;@:)
 endif

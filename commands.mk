@@ -14,7 +14,9 @@ console_exec = docker run -it --rm --name whalephant_console \
 	                 ./console $1 $(CLI_ARGS)
 
 gen: generate ## Generate and display Dockerfile 
-	cat Dockerfile
+	cat recipes/Dockerfile
+	echo "*************************************"
+	cat recipes/php.ini
 
 test: generate only-test ## Generate, build and test
 

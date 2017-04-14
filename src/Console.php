@@ -17,7 +17,7 @@ class Console
 
         $this->app = new Console\Application();
 
-        $this->app->add(new Console\Generate($container['twig'], $container['root.path']));
+        $this->app->add(new Console\Generate($container['generator'], $container['root.path']));
     }
 
     public function run(): void

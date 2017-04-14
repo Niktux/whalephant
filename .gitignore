@@ -8,6 +8,8 @@ vendor/
 # Application runtime files
 #================================================
 var/
+recipes/Dockerfile
+recipes/php.ini
 
 #================================================
 # Application hydrated configuration files

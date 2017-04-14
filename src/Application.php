@@ -4,10 +4,12 @@ namespace Whalephant;
 
 use Silex\Provider\SessionServiceProvider;
 use Onyx\Providers;
+use Whalephant\Services\Generator;
 
 class Application extends \Onyx\Application
 {
     const
+        WHALEPHANT_FILENAME = 'whalephant.yml',
         VERSION = '0.1';
     
     protected function registerProviders(): void
@@ -22,6 +24,10 @@ class Application extends \Onyx\Application
     protected function initializeServices(): void
     {
         $this->configureTwig();
+        
+        $this['generator'] = function() {
+            return new Generator($this['twig']);
+        };
     }
 
     private function configureTwig(): void
