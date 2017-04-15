@@ -12,7 +12,7 @@ whalephant.phar: clean-phar box.phar
 	php -d phar.readonly=off box.phar build
 
 clean-phar:
-	rm whalephant.phar
+	rm -f whalephant.phar
 
 box.phar:
 	wget -q https://github.com/box-project/box2/releases/download/2.7.4/box-${BOX_VERSION}.phar
