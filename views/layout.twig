@@ -1,6 +1,6 @@
 {% import 'macro.twig' as macro %}
-
 FROM php:{{ php.version }}-{{ php.variant }}
+{% if system.packages is not empty %}
 
 RUN echo 'APT::Install-Recommends "0";' >>/etc/apt/apt.conf.d/99-recommends && \
     echo 'APT::Install-Suggests "0";' >>/etc/apt/apt.conf.d/99-suggests
@@ -17,6 +17,7 @@ RUN apt-get update && \
     && apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
+{% endif %}
 {% for macroName in macroList %}
 {{ attribute(macro, macroName) }}
 {% endfor %}
@@ -25,6 +26,7 @@ RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %} && 
     docker-php-ext-enable {% for enable in pecl.enable %}{{ enable }} {% endfor %}
 
 {% block end %}
+
 WORKDIR /var/www/{{ project.name }}
 {% endblock %}
 
