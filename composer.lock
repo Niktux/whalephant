@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "62f7c31e9b9029affadea13356c12889",
+    "content-hash": "68d8e561f9d184bcf6b1ebab4a6f7b1d",
     "packages": [
         {
             "name": "knplabs/gaufrette",
@@ -174,16 +174,16 @@
         },
         {
             "name": "onyx/core",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Onyx-org/core.git",
-                "reference": "f5682a7f43f9b9e2267074a40aad6d64270f3119"
+                "reference": "39d66e68da95c2c00c68d515d2ccc630f22835f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Onyx-org/core/zipball/f5682a7f43f9b9e2267074a40aad6d64270f3119",
-                "reference": "f5682a7f43f9b9e2267074a40aad6d64270f3119",
+                "url": "https://api.github.com/repos/Onyx-org/core/zipball/39d66e68da95c2c00c68d515d2ccc630f22835f2",
+                "reference": "39d66e68da95c2c00c68d515d2ccc630f22835f2",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +207,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-03-22 11:25:25"
+            "time": "2017-04-15T18:29:54+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -2584,9 +2584,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "onyx/core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
