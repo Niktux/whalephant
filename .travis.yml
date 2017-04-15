@@ -1,23 +1,18 @@
 language: php
-
 php:
-    - 7.1
-
+- 7.1
 before_script:
-    - composer install --dev
-
+- composer install --dev
 script:
-    - vendor/bin/phpunit -c phpunit.xml
-
+- vendor/bin/phpunit -c phpunit.xml
 before_deploy:
-    - composer install --no-dev 
-    - make whalephant.phar
-
+- composer install --no-dev
+- make whalephant.phar
 deploy:
-    provider: releases
-    api_key:
-        secure: J6occOPhB/oaOS5hNsJTLHmaN1PeKS19+z5w0sqxNeJ8L0oLaObJmmyJBpn0RBYLaCxpABItC1LNkxj+aQzYPlTZZBx/3XPAlG265bCn/JeA2xnc9F88G13GNhvbSpFUkgllOHmGskmqQHWrjCzQ0ABV1tjkMFas6MNikXeA99A=
-    file: whalephant.phar
-    skip_cleanup: true
-    on:
-      tags: true
+  provider: releases
+  api_key:
+    secure: h6WuivaX+qJBT5S20zhQuG4vt115n7o1u4akizCJT2jpadkbD5t89Rsw8sjMvfYDlMWiIBPgCb4j5lTH5JkTApMPxPRKbNRjretpU3gMCdVapSP2FbSdAiPGgCCSmuWpzt3TSNUT1hYOmOt9Kq1vF75949ew9j1wvhtVyqV/GaNiV9uhvoN9bIp8stPc/h4o2F9L9sPa9Ms2f0qwpo+/0K3HIUHpBaBZ56peBx/NnSyhegI2KjDLsQnSsO7axx+2EiEXnyOQa30c7yGs0KnSKO2bva8ICdjzjMMcXwoe9y+GeJlvErd4b0BFf4bskaAtSc7oAvQRUR5j5aEJNyTh4hSQZW97BVQfcrcznZmliuGZGK4hOEyDLXJOonLMKJlCXE3oe/tQHqSRIbO1k1a3Wc7TaW5tFxozUAEQvsCPabouJahSkWellhjsuTiLoE2aUia29c/r1w8c/KTKKP9zXSd9k1eqEet5k+2ZDin8MfEwhExqdsCHn3yXoiSgY7/Xhm/sTwWO+XcA+SIX5KiFpcBw1tS0CcDD7pWrcFMrUD3Uodqtv/914V5S0fbEapsjZYiOD85HUSVC/ro/Yatj/9BJV9ZHkhkMu9Dj/loC9yC1pJfwfa5XtRYZWjRjlFWecgIyXO0IZQlP25ZKYH/xVwdExUKyHWCVkJzJHWZzhXY=
+  file: whalephant.phar
+  on:
+    tags: true
+
