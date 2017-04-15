@@ -1,15 +1,18 @@
+#------------------------------------------------------------------------------
+# PHAR
+#------------------------------------------------------------------------------
 BOX_VERSION=2.7.4
 
 compile-phar: prepare-env whalephant.phar composer-install ## Compile whalephant.phar
-
-clean-phar:
-	rm whalephant.phar
 
 prepare-env:
 	$(call composer_exec,install --no-dev --ignore-platform-reqs)
 	
 whalephant.phar: clean-phar box.phar 
 	php -d phar.readonly=off box.phar build
+
+clean-phar:
+	rm whalephant.phar
 
 box.phar:
 	wget -q https://github.com/box-project/box2/releases/download/2.7.4/box-${BOX_VERSION}.phar
