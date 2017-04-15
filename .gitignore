@@ -15,6 +15,7 @@ recipes/php.ini
 # Generated files
 #================================================
 whalephant.phar
+box.phar
 
 #================================================
 # Eclipse files
