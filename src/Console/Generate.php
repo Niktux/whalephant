@@ -7,9 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local;
-use Whalephant\Application;
 use Whalephant\Services\Generator;
-
 
 class Generate extends AbstractCommand
 {
@@ -43,9 +41,9 @@ class Generate extends AbstractCommand
         
         $fs = new Filesystem(new Local($directory));
         
-        if(! $fs->has(Application::WHALEPHANT_FILENAME))
+        if(! $fs->has(\Whalephant\Application::WHALEPHANT_FILENAME))
         {
-            throw new \InvalidArgumentException(Application::WHALEPHANT_FILENAME . " is missing");
+            throw new \InvalidArgumentException(\Whalephant\Application::WHALEPHANT_FILENAME . " is missing");
         }
         
         $this->generator->generate($fs);
