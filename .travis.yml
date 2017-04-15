@@ -8,3 +8,16 @@ before_script:
 
 script:
     - vendor/bin/phpunit -c phpunit.xml
+
+before_deploy:
+    - composer install --no-dev 
+    - make whalephant.phar
+
+deploy:
+    provider: releases
+    api_key:
+        secure: J6occOPhB/oaOS5hNsJTLHmaN1PeKS19+z5w0sqxNeJ8L0oLaObJmmyJBpn0RBYLaCxpABItC1LNkxj+aQzYPlTZZBx/3XPAlG265bCn/JeA2xnc9F88G13GNhvbSpFUkgllOHmGskmqQHWrjCzQ0ABV1tjkMFas6MNikXeA99A=
+    file: whalephant.phar
+    skip_cleanup: true
+    on:
+      tags: true
