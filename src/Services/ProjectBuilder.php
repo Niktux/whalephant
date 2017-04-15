@@ -7,6 +7,7 @@ namespace Whalephant\Services;
 use Puzzle\Configuration;
 use Whalephant\Model\Php;
 use Whalephant\Model\Project;
+use Whalephant\Model\Recipe;
 
 class ProjectBuilder
 {
@@ -22,8 +23,35 @@ class ProjectBuilder
     
     public function build(): Project
     {
-        $name = $this->config->readRequired('name');
-        $project = new Project($name, $this->extractPhp());
+        $project = new Project(
+            $this->config->readRequired('name'),
+            $this->extractPhp()
+        );
+        
+        foreach($this->extractExtensions() as $extension)
+        {
+            $project->addExtension($extension);
+        }
+        
+        $recipe = $this->extractIniDirectives();
+        if($recipe instanceof Recipe)
+        {
+            $project->addRecipe($recipe);
+        }
+        
+        return $project;
+    }
+    
+    private function extractPhp(): Php
+    {
+        $version = (string) $this->config->read('php/version', '7');
+
+        return new Php($version);
+    }
+    
+    private function extractExtensions(): iterable
+    {
+        $result = [];
         
         $extensions = $this->config->read('extensions', []);
         
@@ -36,17 +64,34 @@ class ProjectBuilder
         {
             if($this->extensionProvider->exists($extension))
             {
-                $project->addExtension($this->extensionProvider->get($extension));
+                $result[] = $this->extensionProvider->get($extension);
             }
         }
         
-        return $project;
+        return $result;
     }
     
-    private function extractPhp(): Php
+    private function extractIniDirectives(): ?Recipe
     {
-        $version = (string) $this->config->read('php/version', '7');
+        $recipe = null;
 
-        return new Php($version);
+        $iniLines = $this->config->read('ini', []);
+        
+        if(! is_iterable($iniLines))
+        {
+            throw new \InvalidArgumentException("INI directives must be iterable");
+        }
+        
+        if(! empty($iniLines))
+        {
+            $recipe = new Recipe();
+            
+            foreach($iniLines as $line)
+            {
+                $recipe->addIniDirective($line);
+            }
+        }
+        
+        return $recipe;
     }
 }
