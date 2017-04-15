@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Whalephant\Services;
 
-use Whalephant\Model\Project;
-use Whalephant\Model\Pecl;
-use Whalephant\Model\Php;
 use Whalephant\Services\ProjectBuilder;
 use Puzzle\Configuration\Yaml;
 use Gaufrette\Filesystem;
