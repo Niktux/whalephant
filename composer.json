@@ -13,7 +13,6 @@
         "silex/silex": "~2.0",
         "puzzle/configuration": "~3.0",
         "twig/twig": "~1.32",
-        "monolog/monolog": "~1.22",
         "symfony/console" : "~3.2",
         "symfony/twig-bridge" : "~3.2",
         "puzzle/pieces": "~2.1",
@@ -21,7 +20,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Onyx\\": "lib/",
             "Whalephant\\": "src/"
         }
     }

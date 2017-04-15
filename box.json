@@ -13,7 +13,7 @@
     "finder": [
         {
             "name": "*.*",
-            "exclude": ["Tests"],
+            "exclude": ["Tests", "tests", "ext", "doc", "onyx/core/wizards", "docker"],
             "in": "vendor"
         }
     ],
