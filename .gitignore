@@ -12,13 +12,6 @@ recipes/Dockerfile
 recipes/php.ini
 
 #================================================
-# Application hydrated configuration files
-#================================================
-karma
-config/built-in/*.yml
-config/local/*.yml
-
-#================================================
 # Eclipse files
 #================================================
 .buildpath

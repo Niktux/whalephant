@@ -11,7 +11,7 @@ export USER_ID
 export GROUP_ID
 
 # Spread cli arguments for composer & phpunit
-ifneq (,$(filter $(firstword $(MAKECMDGOALS)),composer phpunit, gen))
+ifneq (,$(filter $(firstword $(MAKECMDGOALS)),composer phpunit gen generate test only-test test-phar))
     CLI_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
     $(eval $(CLI_ARGS):;@:)
 endif
@@ -24,17 +24,17 @@ ifeq (composer, $(firstword $(MAKECMDGOALS)))
     endif
 endif
 
-#------------------------------------------------------------------------------
-# Default target
-#------------------------------------------------------------------------------
-init: var install-deps config
+init: var install-deps
+
+.PHONY: init
 
 #------------------------------------------------------------------------------
 # Includes
 #------------------------------------------------------------------------------
 -include vendor/onyx/core/wizards.mk
--include commands.mk
--include phpunit.mk
+include commands.mk
+include phpunit.mk
+include phar.mk
 
 #------------------------------------------------------------------------------
 # High level targets
@@ -44,19 +44,7 @@ install-deps: composer-install
 var:
 	mkdir -m a+w var
 
-.PHONY: install-deps config composer composer-install composer-update composer-dumpautoload uninstall clean remove-deps
-
-#------------------------------------------------------------------------------
-# Karma
-#------------------------------------------------------------------------------
-config: karma
-	./karma hydrate
-
-karma:
-	$(eval LATEST_VERSION := $(shell curl -L -s -H 'Accept: application/json' https://github.com/niktux/karma/releases/latest | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/'))
-	@echo "Latest version of Karma is ${LATEST_VERSION}"
-	wget -O karma -q https://github.com/Niktux/karma/releases/download/${LATEST_VERSION}/karma.phar
-	chmod 0755 karma
+.PHONY: install-deps
 
 #------------------------------------------------------------------------------
 # Composer
@@ -78,16 +66,18 @@ composer-update: composer.phar
 composer-dumpautoload: composer.phar
 	$(call composer_exec, dumpautoload)
 
+.PHONY: composer composer-install composer-update composer-dumpautoload
+
 #------------------------------------------------------------------------------
 # Cleaning targets
 #------------------------------------------------------------------------------
 uninstall: clean remove-deps
 	rm -f composer.lock
-	rm -f config/built-in/*.yml
 
 clean:
-	rm -f karma
 	rm -f composer.phar
 
 remove-deps:
 	rm -rf vendor
+
+.PHONY: uninstall clean remove-deps

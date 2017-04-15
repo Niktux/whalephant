@@ -1,3 +1,0 @@
-developmentMode: <%twig.developmentMode%>
-cache:
-    directory: <%twig.cache.directory%>

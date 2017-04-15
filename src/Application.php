@@ -15,9 +15,6 @@ class Application extends \Onyx\Application
     protected function registerProviders(): void
     {
         $this->register(new SessionServiceProvider());
-        $this->register(new Providers\Monolog([
-            // insert your loggers here
-        ]));
         $this->register(new Providers\Twig());
     }
 

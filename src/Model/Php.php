@@ -18,7 +18,7 @@ class Php
         $this->variant = $variant;
     }
     
-    private function extractDetailsFromVersion(string $version, bool $undefinedIsLatest = true): array
+    private function extractDetailsFromVersion(?string $version, bool $undefinedIsLatest = true): array
     {
         $parts = explode('.', $version);
         
@@ -44,7 +44,7 @@ class Php
         return [$major, $minor, $patch];
     }
     
-    public function isCompatibleWith(string $versionAtLeast = null, string $versionAtMost = null): bool
+    public function isCompatibleWith(?string $versionAtLeast = null, ?string $versionAtMost = null): bool
     {
         $atLeast = true;
         $atMost = true;
@@ -62,7 +62,7 @@ class Php
         return $atLeast && $atMost;
     }
         
-    public function isGreaterOrEqualThan(string $version): bool
+    public function isGreaterOrEqualThan(?string $version): bool
     {
         list($majorAtLeast, $minorAtLeast, $patchAtLeast) = $this->extractDetailsFromVersion($version, false);
         
@@ -92,7 +92,7 @@ class Php
         return $this->patch >= $patchAtLeast;
     }
     
-    public function isLowerOrEqualThan(string $version): bool
+    public function isLowerOrEqualThan(?string $version): bool
     {
         list($majorAtMost, $minorAtMost, $patchAtMost) = $this->extractDetailsFromVersion($version);
         

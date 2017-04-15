@@ -14,14 +14,12 @@ use Whalephant\Services\Generator;
 class Generate extends AbstractCommand
 {
     private
-        $rootPath,
         $generator;
     
-    public function __construct(Generator $generator, string $rootPath)
+    public function __construct(Generator $generator)
     {
         parent::__construct();
         
-        $this->rootPath = $rootPath;
         $this->generator = $generator;
     }
     
@@ -36,7 +34,7 @@ class Generate extends AbstractCommand
     {
         $output->writeln('Generating Dockerfile ...');
         
-        $directory = $this->rootPath . $input->getArgument('directory');
+        $directory = $input->getArgument('directory');
         
         if(! is_dir($directory))
         {

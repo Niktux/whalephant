@@ -1,27 +1,30 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
-
-use Puzzle\Configuration\Yaml;
-use Puzzle\Configuration\Stacked;
-use Gaufrette\Filesystem;
-use Gaufrette\Adapter\Local;
 use Whalephant\Application;
 use Whalephant\Console;
+use Puzzle\Configuration\Memory;
 
-$defaultConfigurationFileStorage= new Filesystem(new Local(__DIR__ . '/config/built-in'));
-$defaultConfiguration = new Yaml($defaultConfigurationFileStorage);
+// Whalephant can be installed by phar or by composer (deprecated). Autoload.php is located differently in these cases
+// Phar location needs to be tested first (__DIR__ is equals to phar://...)
+$locations = [__DIR__ . '/vendor/autoload.php', __DIR__ . '/../../autoload.php'];
+foreach($locations as $file)
+{
+    if(is_file($file))
+    {
+        require $file;
+        break;
+    }
+}
 
-$localConfigurationFileStorage= new Filesystem(new Local(__DIR__ . '/config/local'));
-$localConfiguration = new Yaml($localConfigurationFileStorage);
+$rootDir = __DIR__;
 
-$configuration = new Stacked();
-$configuration
-    ->overrideBy($defaultConfiguration)
-    ->overrideBy($localConfiguration);
-
-$rootDir = realpath(__DIR__);
+$configuration = new Memory([
+	'app/id' => 'whalephant.phar',
+	'app/var.path' => 'var', 
+	'app/debug' => false,
+	'twig/cache/directory' => false
+]);
 
 $app = new Application($configuration, $rootDir);
 

@@ -1,0 +1,21 @@
+{
+    "output": "whalephant.phar",
+    "chmod": "0755",
+    "main": "console",
+     "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "extract": false,
+    "directories": [
+        "src",
+        "views"
+    ],
+    "finder": [
+        {
+            "name": "*.*",
+            "exclude": ["Tests"],
+            "in": "vendor"
+        }
+    ],
+    "stub": true
+}

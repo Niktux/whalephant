@@ -1,6 +1,0 @@
-################################
-# ONYX main configuration file #
-################################
-
-debug: <%app.debug%>
-var.path: <%var.path%>
