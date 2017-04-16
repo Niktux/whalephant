@@ -8,15 +8,16 @@ use Whalephant\Services\ProjectBuilder;
 use Puzzle\Configuration\Yaml;
 use Gaufrette\Filesystem;
 use Puzzle\PrefixedConfiguration;
-use Whalephant\Services\ExtensionProviders\ArrayProvider;
 
 class Generator
 {
     private
+        $projectBuilder,
         $twig;
     
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(ProjectBuilder $builder, \Twig_Environment $twig)
     {
+        $this->projectBuilder = $builder;
         $this->twig = $twig;
     }
     
@@ -25,10 +26,7 @@ class Generator
         $config = new Yaml($fs);
         $config = new PrefixedConfiguration($config, 'whalephant');
         
-        $extensionProvider = new ArrayProvider();
-        
-        $builder = new ProjectBuilder($config, $extensionProvider);
-        $project = $builder->build();
+        $project = $this->projectBuilder->build($config);
         
         $recipe = $project->getRecipe();
         

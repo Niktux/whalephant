@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "68d8e561f9d184bcf6b1ebab4a6f7b1d",
+    "content-hash": "8897c230a6fc0a4e936d4e94ddf8b4c7",
     "packages": [
         {
             "name": "knplabs/gaufrette",

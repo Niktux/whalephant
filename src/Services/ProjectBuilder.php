@@ -12,28 +12,26 @@ use Whalephant\Model\Recipe;
 class ProjectBuilder
 {
     private
-        $config,
         $extensionProvider;
     
-    public function __construct(Configuration $config, ExtensionProvider $extensionProvider)
+    public function __construct(ExtensionProvider $extensionProvider)
     {
-        $this->config = $config;
         $this->extensionProvider = $extensionProvider;
     }
     
-    public function build(): Project
+    public function build(Configuration $config): Project
     {
         $project = new Project(
-            $this->config->readRequired('name'),
-            $this->extractPhp()
+            $config->readRequired('name'),
+            $this->extractPhp($config)
         );
         
-        foreach($this->extractExtensions() as $extension)
+        foreach($this->extractExtensions($config) as $extension)
         {
             $project->addExtension($extension);
         }
         
-        $recipe = $this->extractIniDirectives();
+        $recipe = $this->extractIniDirectives($config);
         if($recipe instanceof Recipe)
         {
             $project->addRecipe($recipe);
@@ -42,18 +40,18 @@ class ProjectBuilder
         return $project;
     }
     
-    private function extractPhp(): Php
+    private function extractPhp(Configuration $config): Php
     {
-        $version = (string) $this->config->read('php/version', '7');
+        $version = (string) $config->read('php/version', '7');
 
         return new Php($version);
     }
     
-    private function extractExtensions(): iterable
+    private function extractExtensions(Configuration $config): iterable
     {
         $result = [];
         
-        $extensions = $this->config->read('extensions', []);
+        $extensions = $config->read('extensions', []);
         
         if(! is_iterable($extensions))
         {
@@ -62,20 +60,22 @@ class ProjectBuilder
         
         foreach($extensions as $extension)
         {
-            if($this->extensionProvider->exists($extension))
+            if(! $this->extensionProvider->exists($extension))
             {
-                $result[] = $this->extensionProvider->get($extension);
+                throw new \InvalidArgumentException("Unknown extension $extension");
             }
+            
+            $result[] = $this->extensionProvider->get($extension);
         }
         
         return $result;
     }
     
-    private function extractIniDirectives(): ?Recipe
+    private function extractIniDirectives(Configuration $config): ?Recipe
     {
         $recipe = null;
 
-        $iniLines = $this->config->read('ini', []);
+        $iniLines = $config->read('ini', []);
         
         if(! is_iterable($iniLines))
         {
