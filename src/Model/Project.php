@@ -53,6 +53,7 @@ class Project
             $merged = $merged->mergeWith($extension->getRecipe());
         }
         
+        // TODO remove me
         $merged->pack();
         
         $this->checkPhpRequirements($merged);

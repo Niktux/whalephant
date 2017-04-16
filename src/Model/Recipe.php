@@ -133,6 +133,8 @@ class Recipe
             $merged->addIniDirective($line);
         }
         
+        $merged->pack();
+        
         return $merged;
     }
     
