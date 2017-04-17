@@ -1,12 +1,16 @@
 name: whalephant-test
 php: 
-    version: 5.5
+    version: 7.1
     variant: cli
 extensions:
     - amqp
     - zlib
     - xdebug
-    - meminfo
+    - redis
+    - gd
+    - mysql
+    - postgresql
+    - memcached
 ini:
     - "error_reporting=E_ALL;"
     - "date.timezone='Europe/Paris';"

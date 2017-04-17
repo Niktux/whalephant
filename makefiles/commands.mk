@@ -14,22 +14,25 @@ console_exec = docker run -it --rm --name whalephant_console \
 generate: create-cli-image ## Generate Dockerfile from Whalephant file
 	$(call console_exec, generate)
 	
+extensions: create-cli-image ## List extensions supported by Whalephant
+	$(call console_exec, extensions)
+	
 create-cli-image:
 	docker build -q -t ${CONSOLE_IMAGE_NAME} docker/images/cli/
 	
 test: generate only-test ## Generate, build and test
 
+exec_on_generated = docker run -it --rm --name whalephant_test whalephant-generated $1 
+
 only-test: ## Build container from generated Dockerfile and display php info
 	docker build -t whalephant-generated ${CLI_ARGS}
-	docker run -it --rm --name whalephant_test whalephant-generated php -i
-
-exec_on_generated = docker run -it --rm --name whalephant_test whalephant-generated $1 
+	$(call exec_on_generated, php -m)
 
 connect: ## Build container from generated Dockerfile and run bash
 	$(call exec_on_generated, /bin/bash)
 
 check: ## Build container from generated Dockerfile and check php modules
-	$(call exec_on_generated, php -r 'phpinfo(INFO_MODULES);')
+	$(call exec_on_generated, php -m)
 	
 whalephant-help: create-cli-image ## Display Whalephant help
 	$(call console_exec, )

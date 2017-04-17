@@ -7,18 +7,20 @@ namespace Whalephant\Model\Extensions;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 
-class Zlib implements Extension
+class GD implements Extension
 {
     public function getName(): string
     {
-        return "zlib";
+        return "gd";
     }
     
     public function getRecipe(): Recipe
     {
         return (new Recipe())
-            ->addPackage('zlib1g-dev')
-            ->addMacroNameForIncludingSpecificCode('zlib')
+            ->addPackage('libfreetype6-dev ')
+            ->addPackage('libjpeg62-turbo-dev')
+            ->addPackage('libpng12-dev')
+            ->addExtensionToInstall('gd')
         ;
     }
 }

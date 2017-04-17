@@ -6,8 +6,13 @@ use Whalephant\Services\ExtensionProvider;
 use Whalephant\Model\Extension;
 use Whalephant\Model\Extensions\Xdebug;
 use Whalephant\Model\Extensions\Amqp;
-use Whalephant\Model\Extensions\Zlib;
+use Whalephant\Model\Extensions\Zip;
 use Whalephant\Model\Extensions\Meminfo;
+use Whalephant\Model\Extensions\Redis;
+use Whalephant\Model\Extensions\Memcached;
+use Whalephant\Model\Extensions\GD;
+use Whalephant\Model\Extensions\MySQL;
+use Whalephant\Model\Extensions\Postgresql;
 
 class ArrayProvider implements ExtensionProvider
 {
@@ -25,21 +30,26 @@ class ArrayProvider implements ExtensionProvider
         $this
             ->register(new Xdebug())
             ->register(new Amqp())
-            ->register(new Zlib())
+            ->register(new Zip())
             ->register(new Meminfo())
+            ->register(new Redis())
+            ->register(new Memcached())
+            ->register(new MySQL())
+            ->register(new Postgresql())
+            ->register(new GD())
         ;
     }
     
     private function register(Extension $e): self
     {
-        $this->extensions[$e->getName()] = $e;
+        $this->extensions[strtolower($e->getName())] = $e;
         
         return $this;
     }
     
     public function exists(string $name): bool
     {
-        return isset($this->extensions[$name]);
+        return isset($this->extensions[strtolower($name)]);
     }
     
     public function get(string $name): ?Extension
@@ -50,5 +60,14 @@ class ArrayProvider implements ExtensionProvider
         }
         
         return $this->extensions[$name];
+    }
+    
+    public function listNames(): iterable
+    {
+        $names = array_keys($this->extensions);
+        
+        sort($names);
+        
+        return $names;
     }
 }

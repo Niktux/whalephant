@@ -14,6 +14,7 @@ class Console
         $this->app = new Console\Application();
 
         $this->app->add(new Console\Generate($container['generator']));
+        $this->app->add(new Console\Extensions($container['extension.provider']));
     }
 
     public function run(): void

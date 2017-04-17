@@ -7,7 +7,7 @@ RUN echo 'APT::Install-Recommends "0";' >>/etc/apt/apt.conf.d/99-recommends && \
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
+RUN apt-get update && \ 
     apt-get install -y automake \
                        build-essential \
                        libtool \
@@ -22,8 +22,17 @@ RUN apt-get update && \
 {{ attribute(macro, macroName) }}
 {% endfor %}
 
-RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %} && \
-    docker-php-ext-enable {% for enable in pecl.enable %}{{ enable }} {% endfor %}
+{% if pecl.install is not empty %}
+RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %}
+{% endif %}
+
+{% if extensions.install is not empty %}
+RUN docker-php-ext-install {% for install in extensions.install %}{{ install }} {% endfor %}
+{% endif %}
+
+{% if pecl.enable is not empty %}
+RUN docker-php-ext-enable {% for enable in pecl.enable %}{{ enable }} {% endfor %}
+{% endif %}
 
 {% block end %}
 

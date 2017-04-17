@@ -11,6 +11,7 @@ class Recipe
         $packages,
         $macros,
         $pecl,
+        $extensions,
         $ini;
     
     public function __construct()
@@ -28,6 +29,10 @@ class Recipe
         $this->pecl = [
             'install' => [],
             'enable' => [],
+        ];
+        
+        $this->extensions = [
+            'install' => []
         ];
         
         $this->ini = [];
@@ -71,6 +76,13 @@ class Recipe
     public function addPeclPackageToEnable(string $package): self
     {
         $this->pecl['enable'][] = $package;
+        
+        return $this;
+    }
+    
+    public function addExtensionToInstall(string $extension): self
+    {
+        $this->extensions['install'][] = $extension;
         
         return $this;
     }
@@ -128,6 +140,11 @@ class Recipe
             $merged->addPeclPackageToEnable($package);
         }
         
+        foreach($this->extensions['install'] as $extension)
+        {
+            $merged->addExtensionToInstall($extension);
+        }
+        
         foreach($this->ini as $line)
         {
             $merged->addIniDirective($line);
@@ -146,6 +163,8 @@ class Recipe
 
         $this->pecl['install'] = array_unique($this->pecl['install']);
         $this->pecl['enable'] = array_unique($this->pecl['enable']);
+        
+        $this->extensions['install'] = array_unique($this->extensions['install']);
         
         return $this;
     }
@@ -173,6 +192,11 @@ class Recipe
     public function getPeclPackagesToEnable(): array
     {
         return $this->pecl['enable'];
+    }
+    
+    public function getExtensionsToInstall(): array
+    {
+        return $this->extensions['install'];
     }
     
     public function getMinimumPhp(): ?string

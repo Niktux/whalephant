@@ -3,6 +3,6 @@ php:
     version: 7.1
     variant: cli
 extensions:
-    - xdebug
+    - zip
 ini:
     - "error_reporting=E_ALL;"

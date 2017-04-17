@@ -39,6 +39,9 @@ class Generator
                 'install' => $recipe->getPeclPackagesToInstall(),
                 'enable' => $recipe->getPeclPackagesToEnable(),
             ],
+            'extensions' => [
+                'install' => $recipe->getExtensionsToInstall(),
+            ],
             'macroList' => $recipe->getMacros(),
             'project' => $project,
         ]);

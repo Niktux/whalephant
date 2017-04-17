@@ -24,8 +24,13 @@ class ProjectBuilderTest extends TestCase
             'php/version' => '7.1',
             'extensions' => [
                 'amqp',
+                'gd',
                 'xdebug',
-                'zlib',
+                'memcached',
+                'mysql',
+                'postgresql',
+                'redis',
+                'zip',
             ],
             'ini' => [
                 'error_reporting=E_ALL;',
