@@ -34,13 +34,16 @@ class RecipeTest extends TestCase
         $this->assertPhpVersion('5.5', '7.1.2', $merged);
         $this->assertPackages(['p1', 'p2', 'p3'], $merged);
         $this->assertIniDirectives(['pony'], $merged);
+        $this->assertFalse($merged->getAutomakeNeeded(), "Wrong <Need automake> flag");
         
         $r3 = new Recipe();
+        $r3->needAutomake();
         $r3->minimumPhp('5.4.8');
         $r3->maximumPhp('7.0.9');
         
         $merged2 = $r3->mergeWith($merged);
         $this->assertPhpVersion('5.5', '7.0.9', $merged2);
+        $this->assertTrue($merged2->getAutomakeNeeded(), "Wrong <Need automake> flag");
         
         $r4 = new Recipe();
         //$r4->minimumPhp('5.5.1');
@@ -58,6 +61,7 @@ class RecipeTest extends TestCase
         $this->assertPackages(['p1', 'p2', 'p3', 'p4'], $merged3);
         $this->assertIniDirectives(['pony', 'unicorn'], $merged3);
         $this->assertMacro(['r4'], $merged3);
+        $this->assertTrue($merged3->getAutomakeNeeded(), "Wrong <Need automake> flag");
     }
     
     private function assertPhpVersion(string $min, string $max, Recipe $recipe): void

@@ -44,6 +44,7 @@ class Generator
             ],
             'macroList' => $recipe->getMacros(),
             'project' => $project,
+            'needAutomake' => $recipe->getAutomakeNeeded(),
         ]);
         
         $fs->write("Dockerfile", $dockerfile, true);

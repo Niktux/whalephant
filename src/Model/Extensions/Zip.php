@@ -14,7 +14,7 @@ class Zip implements Extension
         return "zip";
     }
     
-    public function getRecipe(): Recipe
+    public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPackage('zlib1g-dev')

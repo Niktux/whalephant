@@ -14,7 +14,7 @@ class MySQL implements Extension
         return "mysql";
     }
     
-    public function getRecipe(): Recipe
+    public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->addExtensionToInstall('pdo_mysql')

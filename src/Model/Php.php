@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Whalephant\Model;
 
 class Php
@@ -20,6 +22,11 @@ class Php
     
     private function extractDetailsFromVersion(?string $version, bool $undefinedIsLatest = true): array
     {
+        if(is_null($version))
+        {
+            return [0, 0, 0];
+        }
+        
         $parts = explode('.', $version);
         
         $major = 7;

@@ -8,6 +8,7 @@ class Recipe
 {
     private
         $requires,
+        $needAutomake,
         $packages,
         $macros,
         $pecl,
@@ -23,6 +24,7 @@ class Recipe
             ],
         ];
         
+        $this->needAutomake = false;
         $this->packages = [];
         $this->macros = [];
         
@@ -48,6 +50,13 @@ class Recipe
     public function maximumPhp(string $version): self
     {
         $this->requires['php']['max'] = $version;
+        
+        return $this;
+    }
+    
+    public function needAutomake(): self
+    {
+        $this->needAutomake = true;
         
         return $this;
     }
@@ -150,6 +159,11 @@ class Recipe
             $merged->addIniDirective($line);
         }
         
+        if($this->needAutomake)
+        {
+            $merged->needAutomake();
+        }
+        
         $merged->pack();
         
         return $merged;
@@ -167,6 +181,11 @@ class Recipe
         $this->extensions['install'] = array_unique($this->extensions['install']);
         
         return $this;
+    }
+    
+    public function getAutomakeNeeded(): bool
+    {
+        return $this->needAutomake;
     }
     
     public function getPackages(): array

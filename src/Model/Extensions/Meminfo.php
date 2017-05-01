@@ -14,7 +14,7 @@ class Meminfo implements Extension
         return "meminfo";
     }
     
-    public function getRecipe(): Recipe
+    public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->maximumPhp('5.6')

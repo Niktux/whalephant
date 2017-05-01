@@ -14,7 +14,7 @@ class GD implements Extension
         return "gd";
     }
     
-    public function getRecipe(): Recipe
+    public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPackage('libfreetype6-dev ')

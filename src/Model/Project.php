@@ -27,9 +27,12 @@ class Project
         return $this;
     }
     
-    public function addExtension(Extension $extension): self
+    public function addExtension(Extension $extension, ?string $version = null): self
     {
-        $this->extensions[] = $extension;
+        $this->extensions[] = [
+            'extension' => $extension,
+            'version' => $version,
+        ];
         
         return $this;
     }
@@ -48,9 +51,10 @@ class Project
             $merged = $merged->mergeWith($recipe);
         }
             
-        foreach($this->extensions as $extension)
+        foreach($this->extensions as $extensionInfo)
         {
-            $merged = $merged->mergeWith($extension->getRecipe());
+            $extension = $extensionInfo['extension'];
+            $merged = $merged->mergeWith($extension->getRecipe($extensionInfo['version']));
         }
         
         // TODO remove me

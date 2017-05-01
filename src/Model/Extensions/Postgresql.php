@@ -14,7 +14,7 @@ class Postgresql implements Extension
         return "postgresql";
     }
     
-    public function getRecipe(): Recipe
+    public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPackage('libpq-dev')

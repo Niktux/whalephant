@@ -11,6 +11,8 @@ use Whalephant\Model\Recipe;
 
 class ProjectBuilder
 {
+    private const EXTENSION_SEPARATOR = ':';
+    
     private
         $extensionProvider;
     
@@ -26,9 +28,9 @@ class ProjectBuilder
             $this->extractPhp($config)
         );
         
-        foreach($this->extractExtensions($config) as $extension)
+        foreach($this->extractExtensions($config) as $extensionInfo)
         {
-            $project->addExtension($extension);
+            $project->addExtension($extensionInfo['extension'], $extensionInfo['version']);
         }
         
         $recipe = $this->extractIniDirectives($config);
@@ -60,12 +62,22 @@ class ProjectBuilder
         
         foreach($extensions as $extension)
         {
+            $version = null;
+            
+            if(stripos($extension, self::EXTENSION_SEPARATOR) !== false)
+            {
+                list($extension, $version) = explode(self::EXTENSION_SEPARATOR, $extension);
+            }
+            
             if(! $this->extensionProvider->exists($extension))
             {
                 throw new \InvalidArgumentException("Unknown extension $extension");
             }
             
-            $result[] = $this->extensionProvider->get($extension);
+            $result[] = [
+                'extension' => $this->extensionProvider->get($extension),
+                'version' => $version,
+            ];
         }
         
         return $result;
