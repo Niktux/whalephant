@@ -12,8 +12,10 @@ var/
 #================================================
 # Generated files
 #================================================
-recipes/*/Dockerfile
-recipes/*/php.ini
+recipes/full/Dockerfile
+recipes/full/php.ini
+recipes/simple/*/Dockerfile
+recipes/simple/*/php.ini
 whalephant.phar
 box.phar
 coverage/

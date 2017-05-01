@@ -1,0 +1,8 @@
+name: whalephant-test
+php: 
+    version: 5.6
+    variant: cli
+extensions:
+    - meminfo
+ini:
+    - "error_reporting=E_ALL;"
