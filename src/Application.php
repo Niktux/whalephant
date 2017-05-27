@@ -12,8 +12,8 @@ class Application extends \Onyx\Application
 {
     const
         WHALEPHANT_FILENAME = 'whalephant.yml',
-        VERSION = '0.4.0';
-    
+        VERSION = '0.5.0';
+
     protected function registerProviders(): void
     {
         $this->register(new SessionServiceProvider());
@@ -23,15 +23,15 @@ class Application extends \Onyx\Application
     protected function initializeServices(): void
     {
         $this->configureTwig();
-        
+
         $this['generator'] = function() {
             return new Generator($this['project.builder'], $this['twig']);
         };
-        
+
         $this['project.builder'] = function() {
             return new ProjectBuilder($this['extension.provider']);
         };
-        
+
         $this['extension.provider'] = function() {
             return new ArrayProvider();
         };
