@@ -11,16 +11,16 @@ use Whalephant\Model\VersionableExtension;
 class Redis implements Extension
 {
     use VersionableExtension;
-    
+
     public function getName(): string
     {
         return "redis";
     }
-    
+
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-        ->addPeclPackageToInstall($this->versionedName('redis', $version))
+            ->addPeclPackageToInstall($this->versionedName('redis', $version))
             ->addPeclPackageToEnable('redis')
         ;
     }
