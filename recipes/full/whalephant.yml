@@ -4,12 +4,13 @@ php:
     variant: cli
 extensions:
     - amqp
-    - zlib
+    - zip
     - xdebug
     - redis
     - gd
     - mysql
     - postgresql
+    - pdo-postgresql
     - memcached
 ini:
     - "error_reporting=E_ALL;"

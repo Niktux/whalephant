@@ -12,6 +12,7 @@ use Whalephant\Model\Extensions\Redis;
 use Whalephant\Model\Extensions\Memcached;
 use Whalephant\Model\Extensions\GD;
 use Whalephant\Model\Extensions\MySQL;
+use Whalephant\Model\Extensions\PdoPostgresql;
 use Whalephant\Model\Extensions\Postgresql;
 use Whalephant\Model\Extensions\Calendar;
 
@@ -37,6 +38,7 @@ class ArrayProvider implements ExtensionProvider
             ->register(new Redis())
             ->register(new Memcached())
             ->register(new MySQL())
+            ->register(new PdoPostgresql())
             ->register(new Postgresql())
             ->register(new GD())
         ;

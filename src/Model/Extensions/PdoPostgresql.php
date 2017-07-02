@@ -7,18 +7,18 @@ namespace Whalephant\Model\Extensions;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 
-class Postgresql implements Extension
+class PdoPostgresql implements Extension
 {
     public function getName(): string
     {
-        return "postgresql";
+        return "pdo-postgresql";
     }
 
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPackage('libpq-dev')
-            ->addExtensionToInstall('pgsql')
+            ->addExtensionToInstall('pdo_pgsql')
         ;
     }
 }
