@@ -8,6 +8,7 @@ extensions:
     - xdebug
     - redis
     - gd
+    - imagick
     - mysql
     - postgresql
     - pdo-postgresql

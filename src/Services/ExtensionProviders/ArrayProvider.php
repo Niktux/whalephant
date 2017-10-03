@@ -15,6 +15,7 @@ use Whalephant\Model\Extensions\MySQL;
 use Whalephant\Model\Extensions\PdoPostgresql;
 use Whalephant\Model\Extensions\Postgresql;
 use Whalephant\Model\Extensions\Calendar;
+use Whalephant\Model\Extensions\Imagick;
 
 class ArrayProvider implements ExtensionProvider
 {
@@ -41,6 +42,7 @@ class ArrayProvider implements ExtensionProvider
             ->register(new PdoPostgresql())
             ->register(new Postgresql())
             ->register(new GD())
+            ->register(new Imagick())
         ;
     }
 

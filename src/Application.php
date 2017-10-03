@@ -12,7 +12,7 @@ class Application extends \Onyx\Application
 {
     const
         WHALEPHANT_FILENAME = 'whalephant.yml',
-        VERSION = '0.6.0';
+        VERSION = '0.7.0';
 
     protected function registerProviders(): void
     {
