@@ -26,4 +26,12 @@ test-phar: compile-phar ## Compile and run phar
                ${CONSOLE_IMAGE_NAME} \
                php whalephant.phar generate $(CLI_ARGS)
 
-.PHONY: compile-phar clean-phar prepare-env test-phar
+test-phar-without-compile: ## Run phar
+	docker run -it --rm --name whalephant_console \
+               -v ${HOST_SOURCE_PATH}:${CONSOLE_CONTAINER_SOURCE_PATH} \
+               -w ${CONSOLE_CONTAINER_SOURCE_PATH} \
+               -u ${USER_ID}:${GROUP_ID} \
+               ${CONSOLE_IMAGE_NAME} \
+               php whalephant.phar extensions
+
+.PHONY: compile-phar clean-phar prepare-env test-phar test-phar-without-compile
