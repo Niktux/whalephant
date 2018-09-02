@@ -31,7 +31,7 @@ name: test
 php:
     version: 5.6
 extensions:
-    - meminfo
+    - meminfo:5
 YAML
 );
         $this->generator->generate($fs);
