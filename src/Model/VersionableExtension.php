@@ -6,7 +6,7 @@ namespace Whalephant\Model;
 
 trait VersionableExtension
 {
-    private function versionedName(string $name, ?string $version)
+    private function versionedName(string $name, ?string $version): string
     {
         return $name . ($version ? "-$version": '');
     }

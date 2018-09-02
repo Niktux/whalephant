@@ -11,7 +11,7 @@ class PhpTest extends TestCase
     /**
      * @dataProvider providerTestGreaterOrEqualThan
      */
-    public function testGreaterOrEqualThan($version, $toCompare, $expected)
+    public function testGreaterOrEqualThan(string $version, ?string $toCompare, bool $expected): void
     {
         $php = new Php($version);
         
@@ -21,7 +21,7 @@ class PhpTest extends TestCase
         );
     }
     
-    public function providerTestGreaterOrEqualThan()
+    public function providerTestGreaterOrEqualThan(): array
     {
         return [
             ['7', null, true],
@@ -74,7 +74,7 @@ class PhpTest extends TestCase
     /**
      * @dataProvider providerTestLowerOrEqualThan
      */
-    public function testLowerOrEqualThan($version, $toCompare, $expected)
+    public function testLowerOrEqualThan(string $version, ?string $toCompare, bool $expected): void
     {
         $php = new Php($version);
         
@@ -84,7 +84,7 @@ class PhpTest extends TestCase
         );
     }
     
-    public function providerTestLowerOrEqualThan()
+    public function providerTestLowerOrEqualThan(): array
     {
         return [
             ['7', '7', true],

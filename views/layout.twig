@@ -1,6 +1,6 @@
 {% import 'macro.twig' as macro %}
 FROM php:{{ php.version }}-{{ php.variant }}
-{% if system.packages is not empty or needAutomake == true %}
+{%- if system.packages is not empty or needAutomake == true %}
 
 RUN echo 'APT::Install-Recommends "0";' >>/etc/apt/apt.conf.d/99-recommends && \
     echo 'APT::Install-Suggests "0";' >>/etc/apt/apt.conf.d/99-suggests
@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get install -y automake \
                        build-essential \
                        libtool \
-                       {% for package in system.packages %}{{ package }} \ 
+                       {% for package in system.packages %}{{ package }} \
                        {% endfor %}
 
     && apt-get -y autoremove && \
@@ -22,7 +22,7 @@ RUN apt-get update && \
 {{ attribute(macro, macroName) }}
 {% endfor %}
 
-{% if pecl.install is not empty %}
+{%- if pecl.install is not empty %}
 RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %}
 {% endif %}
 

@@ -3,6 +3,6 @@ php:
     version: 5.6
     variant: cli
 extensions:
-    - meminfo
+    - meminfo:5
 ini:
     - "error_reporting=E_ALL;"

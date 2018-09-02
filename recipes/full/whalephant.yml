@@ -1,18 +1,20 @@
 name: whalephant-test
 php: 
-    version: 7.1
+    version: 7.2
     variant: cli
 extensions:
     - amqp
-    - zip
-    - xdebug
-    - redis
+    - calendar
     - gd
     - imagick
-    - mysql
-    - postgresql
-    - pdo-postgresql
+    - intl
     - memcached
+    - mysql
+    - pdo-postgresql
+    - postgresql
+    - redis
+    - xdebug
+    - zip
 ini:
     - "error_reporting=E_ALL;"
     - "date.timezone='Europe/Paris';"

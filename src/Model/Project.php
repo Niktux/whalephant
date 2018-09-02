@@ -75,7 +75,7 @@ class Project
             throw new \InvalidArgumentException(sprintf(
                 "PHP %s is incompatible with requirements (%s)",
                 $this->php->version,
-                implode(", ", array_filter([($min ? ">= $min" : ""), ($max ? "<= $max": "")]))
+                implode(", ", array_filter([$min ? ">= $min" : "", $max ? "<= $max": ""]))
             ));
         }
     }

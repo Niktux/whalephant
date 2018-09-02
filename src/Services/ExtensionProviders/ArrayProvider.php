@@ -2,6 +2,7 @@
 
 namespace Whalephant\Services\ExtensionProviders;
 
+use Whalephant\Model\Extensions\Intl;
 use Whalephant\Services\ExtensionProvider;
 use Whalephant\Model\Extension;
 use Whalephant\Model\Extensions\Xdebug;
@@ -43,6 +44,7 @@ class ArrayProvider implements ExtensionProvider
             ->register(new Postgresql())
             ->register(new GD())
             ->register(new Imagick())
+            ->register(new Intl())
         ;
     }
 

@@ -1,11 +1,13 @@
+{# - ZIP ------------------------------------------------------------------- #}
 {% macro zip() %}
-# Due to issue https://github.com/docker-library/php/issues/233
-# Crappy workaround
-RUN docker-php-ext-install zlib; exit 0
-RUN cp /usr/src/php/ext/zlib/config0.m4 /usr/src/php/ext/zlib/config.m4
-RUN docker-php-ext-install zlib zip
+    # Due to issue https://github.com/docker-library/php/issues/233
+    # Crappy workaround
+    RUN docker-php-ext-install zlib; exit 0
+    RUN cp /usr/src/php/ext/zlib/config0.m4 /usr/src/php/ext/zlib/config.m4
+    RUN docker-php-ext-install zlib zip
 {% endmacro %}
 
+{# - AMQP ------------------------------------------------------------------ #}
 {% macro amqp() %}
 ENV RABBITMQ_VERSION 0.8.0
 
@@ -22,15 +24,31 @@ RUN cd /tmp && \
     rm rabbitmq-c-${RABBITMQ_VERSION}.tar.gz
 {% endmacro %}
 
-{% macro meminfo() %}
+{# - MEMINFO --------------------------------------------------------------- #}
+{% macro meminfo5() %}
 RUN git clone https://github.com/BitOne/php-meminfo.git && \
-	cd php-meminfo/extension && \
-	phpize && \
-	./configure --enable-meminfo && \
-	make && \
-	make install
+    cd php-meminfo/extension/php5 && \
+    phpize && \
+    ./configure --enable-meminfo && \
+    make && \
+    make install
 
 RUN cd /php-meminfo/analyzer && \
-	curl -sS https://getcomposer.org/installer | php && \
-	php composer.phar update
+    curl -sS https://getcomposer.org/installer | php && \
+    php composer.phar update
 {% endmacro %}
+
+{% macro meminfo7() %}
+RUN git clone https://github.com/BitOne/php-meminfo.git && \
+    cd php-meminfo/extension/php7 && \
+    phpize && \
+    ./configure --enable-meminfo && \
+    make && \
+    make install
+
+RUN cd /php-meminfo/analyzer && \
+    curl -sS https://getcomposer.org/installer | php && \
+    php composer.phar update
+{% endmacro %}
+
+{# -      ------------------------------------------------------------------ #}

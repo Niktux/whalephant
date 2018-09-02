@@ -21,12 +21,12 @@ class Memcached implements Extension
     {
         $recipe = new Recipe();
         
-        if($version !== null && substr($version, 0, 1) === '2')
+        if($version !== null && $version[0] === '2')
         {
             $recipe->maximumPhp('5.6');
         }
         
-        if($version !== null && substr($version, 0, 1) === '3')
+        if($version !== null && $version[0] === '3')
         {
             $recipe->minimumPhp('7.0.0');
         }

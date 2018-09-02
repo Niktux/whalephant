@@ -10,9 +10,9 @@ use Whalephant\Services\ProjectBuilder;
 
 class Application extends \Onyx\Application
 {
-    const
+    public const
         WHALEPHANT_FILENAME = 'whalephant.yml',
-        VERSION = '0.7.0';
+        VERSION = '0.8.0';
 
     protected function registerProviders(): void
     {

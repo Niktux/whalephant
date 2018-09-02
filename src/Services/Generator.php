@@ -21,7 +21,7 @@ class Generator
         $this->twig = $twig;
     }
     
-    public function generate(Filesystem $fs)
+    public function generate(Filesystem $fs): void
     {
         $config = new Yaml($fs);
         $config = new PrefixedConfiguration($config, 'whalephant');

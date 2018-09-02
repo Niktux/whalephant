@@ -18,13 +18,13 @@ class Extensions extends AbstractCommand
         $this->provider = $provider;
     }
     
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('extensions')
         ->setDescription('List supported extensions');
     }
     
-    protected function doExecute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('Suported extensions are :');
 

@@ -21,8 +21,9 @@ box.phar
 coverage/
 
 #================================================
-# Eclipse files
+# IDE files
 #================================================
 .buildpath
 .project
 .settings/
+.idea/

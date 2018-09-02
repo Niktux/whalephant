@@ -16,12 +16,23 @@ class Meminfo implements Extension
     
     public function getRecipe(?string $version = null): Recipe
     {
-        return (new Recipe())
-            ->maximumPhp('5.6')
-            ->addPackage('php5-dev')
+        $recipe = new Recipe();
+
+        if($version !== null && $version[0] === '5')
+        {
+            $recipe
+                ->maximumPhp('5.6')
+                ->addMacroNameForIncludingSpecificCode('meminfo5');
+        }
+        else
+        {
+            $recipe->minimumPhp('7.0.0')
+                ->addMacroNameForIncludingSpecificCode('meminfo7');
+        }
+
+        return $recipe
             ->addPackage('git')
             ->addPackage('unzip')
-            ->addMacroNameForIncludingSpecificCode('meminfo')
             ->addIniDirective('extension=meminfo.so')
         ;
     }

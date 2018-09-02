@@ -21,14 +21,14 @@ class Generate extends AbstractCommand
         $this->generator = $generator;
     }
     
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('generate')
             ->setDescription('Generate dockerfile')
             ->addArgument('directory', InputArgument::REQUIRED, 'directory where whalephant.yml is located and where Dockerfile must be generated');
     }
 
-    protected function doExecute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('Generating Dockerfile ...');
         

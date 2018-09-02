@@ -15,14 +15,14 @@ class Php
     
     public function __construct(string $version = '7', string $variant = 'cli')
     {
-        list($this->major, $this->minor, $this->patch) = $this->extractDetailsFromVersion($version);
+        [$this->major, $this->minor, $this->patch] = $this->extractDetailsFromVersion($version);
         $this->version= $version;
         $this->variant = $variant;
     }
     
     private function extractDetailsFromVersion(?string $version, bool $undefinedIsLatest = true): array
     {
-        if(is_null($version))
+        if($version === null)
         {
             return [0, 0, 0];
         }
@@ -71,7 +71,7 @@ class Php
         
     public function isGreaterOrEqualThan(?string $version): bool
     {
-        list($majorAtLeast, $minorAtLeast, $patchAtLeast) = $this->extractDetailsFromVersion($version, false);
+        [$majorAtLeast, $minorAtLeast, $patchAtLeast] = $this->extractDetailsFromVersion($version, false);
         
         if($this->major !== $majorAtLeast)
         {
@@ -101,7 +101,7 @@ class Php
     
     public function isLowerOrEqualThan(?string $version): bool
     {
-        list($majorAtMost, $minorAtMost, $patchAtMost) = $this->extractDetailsFromVersion($version);
+        [$majorAtMost, $minorAtMost, $patchAtMost] = $this->extractDetailsFromVersion($version);
         
         if($this->major !== $majorAtMost)
         {
