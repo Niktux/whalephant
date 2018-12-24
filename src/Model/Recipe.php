@@ -30,6 +30,7 @@ class Recipe
         
         $this->pecl = [
             'install' => [],
+            'configure' => [],
             'enable' => [],
         ];
         
@@ -82,10 +83,20 @@ class Recipe
         return $this;
     }
     
+    public function addPeclPackageToConfigure(string $package, string $options = ''): self
+    {
+        $this->pecl['configure'][] = [
+            'name' => $package,
+            'options' => $options,
+        ];
+
+        return $this;
+    }
+
     public function addPeclPackageToEnable(string $package): self
     {
         $this->pecl['enable'][] = $package;
-        
+
         return $this;
     }
     
@@ -144,6 +155,11 @@ class Recipe
             $merged->addPeclPackageToInstall($package);
         }
         
+        foreach($this->pecl['configure'] as $package)
+        {
+            $merged->addPeclPackageToConfigure($package['name'], $package['options']);
+        }
+
         foreach($this->pecl['enable'] as $package)
         {
             $merged->addPeclPackageToEnable($package);
@@ -177,7 +193,8 @@ class Recipe
 
         $this->pecl['install'] = array_unique($this->pecl['install']);
         $this->pecl['enable'] = array_unique($this->pecl['enable']);
-        
+        $this->pecl['configure'] = array_unique($this->pecl['configure']);
+
         $this->extensions['install'] = array_unique($this->extensions['install']);
         
         return $this;
@@ -208,11 +225,16 @@ class Recipe
         return $this->pecl['install'];
     }
     
+    public function getPeclPackagesToConfigure(): array
+    {
+        return $this->pecl['configure'];
+    }
+
     public function getPeclPackagesToEnable(): array
     {
         return $this->pecl['enable'];
     }
-    
+
     public function getExtensionsToInstall(): array
     {
         return $this->extensions['install'];

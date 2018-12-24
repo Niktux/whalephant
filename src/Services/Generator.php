@@ -37,6 +37,7 @@ class Generator
             ],
             'pecl' => [
                 'install' => $recipe->getPeclPackagesToInstall(),
+                'configure' => $recipe->getPeclPackagesToConfigure(),
                 'enable' => $recipe->getPeclPackagesToEnable(),
             ],
             'extensions' => [

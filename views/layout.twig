@@ -10,11 +10,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \ 
     apt-get install -y automake \
                        build-essential \
-                       libtool \
                        {% for package in system.packages %}{{ package }} \
                        {% endfor %}
-
-    && apt-get -y autoremove && \
+                        libtool && \
+    apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
 {% endif %}
@@ -24,6 +23,12 @@ RUN apt-get update && \
 
 {%- if pecl.install is not empty %}
 RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %}
+{% endif %}
+
+{% if pecl.configure is not empty %}
+{% for ext in pecl.configure %}
+RUN docker-php-ext-configure {{ ext.name }} {{ ext.options }}
+{% endfor %}
 {% endif %}
 
 {% if extensions.install is not empty %}

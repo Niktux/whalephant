@@ -19,7 +19,8 @@ class GD implements Extension
         return (new Recipe())
             ->addPackage('libfreetype6-dev ')
             ->addPackage('libjpeg62-turbo-dev')
-            ->addPackage('libpng12-dev')
+            ->addPackage('libpng-dev')
+            ->addPeclPackageToConfigure('gd', '--with-jpeg-dir --with-png-dir')
             ->addExtensionToInstall('gd')
         ;
     }
