@@ -17,26 +17,27 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 {% endif %}
+
 {% for macroName in macroList %}
 {{ attribute(macro, macroName) }}
 {% endfor %}
 
-{%- if pecl.install is not empty %}
-RUN pecl install {% for install in pecl.install %}{{ install }} {% endfor %}
+{%- if peclExtensions.installByPecl is not empty %}
+RUN pecl install {% for extension in peclExtensions.installByPecl %}{{ extension.nameForInstall }} {% endfor %}
 {% endif %}
 
-{% if pecl.configure is not empty %}
-{% for ext in pecl.configure %}
-RUN docker-php-ext-configure {{ ext.name }} {{ ext.options }}
+{% if peclExtensions.configure is not empty %}
+{% for extension in peclExtensions.configure %}
+RUN docker-php-ext-configure {{ extension.name }} {{ extension.configureOptions }}
 {% endfor %}
 {% endif %}
 
-{% if extensions.install is not empty %}
-RUN docker-php-ext-install {% for install in extensions.install %}{{ install }} {% endfor %}
+{%- if peclExtensions.installByDocker is not empty %}
+RUN docker-php-ext-install {% for extension in peclExtensions.installByDocker %}{{ extension.nameForInstall }} {% endfor %}
 {% endif %}
 
-{% if pecl.enable is not empty %}
-RUN docker-php-ext-enable {% for enable in pecl.enable %}{{ enable }} {% endfor %}
+{% if peclExtensions.enable is not empty %}
+RUN docker-php-ext-enable {% for extension in peclExtensions.enable %}{{ extension.name }} {% endfor %}
 {% endif %}
 
 {% block end %}

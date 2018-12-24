@@ -6,6 +6,8 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Imagick implements Extension
 {
@@ -18,8 +20,9 @@ class Imagick implements Extension
     {
         return (new Recipe())
             ->addPackage('libmagickwand-dev')
-            ->addPeclPackageToInstall('imagick')
-            ->addPeclPackageToEnable('imagick')
+            ->addPeclExtension(
+                new PeclExtension('imagick', $version, PeclInstallationMode::pecl())
+            )
         ;
     }
 }

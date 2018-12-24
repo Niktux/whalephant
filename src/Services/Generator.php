@@ -35,14 +35,7 @@ class Generator
                 'system' => [
                 'packages' => $recipe->getPackages(),
             ],
-            'pecl' => [
-                'install' => $recipe->getPeclPackagesToInstall(),
-                'configure' => $recipe->getPeclPackagesToConfigure(),
-                'enable' => $recipe->getPeclPackagesToEnable(),
-            ],
-            'extensions' => [
-                'install' => $recipe->getExtensionsToInstall(),
-            ],
+            'peclExtensions' => $recipe->peclExtensions(),
             'macroList' => $recipe->getMacros(),
             'project' => $project,
             'needAutomake' => $recipe->getAutomakeNeeded(),

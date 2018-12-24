@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Intl implements Extension
 {
-    use VersionableExtension;
-
     public function getName(): string
     {
         return "intl";
@@ -21,7 +20,9 @@ class Intl implements Extension
     {
         return (new Recipe())
             ->addPackage('libicu-dev')
-            ->addExtensionToInstall('intl')
+            ->addPeclExtension(
+                new PeclExtension('intl', $version, PeclInstallationMode::docker())
+            )
         ;
     }
 }

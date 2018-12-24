@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Xdebug implements Extension
 {
-    use VersionableExtension;
-    
     public function getName(): string
     {
         return "xdebug";
@@ -20,8 +19,9 @@ class Xdebug implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addPeclPackageToInstall($this->versionedName('xdebug', $version))
-            ->addPeclPackageToEnable('xdebug')
+            ->addPeclExtension(
+                new PeclExtension('xdebug', $version, PeclInstallationMode::pecl())
+            )
         ;
     }
 }

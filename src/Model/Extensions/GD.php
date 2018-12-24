@@ -6,6 +6,8 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class GD implements Extension
 {
@@ -20,8 +22,9 @@ class GD implements Extension
             ->addPackage('libfreetype6-dev ')
             ->addPackage('libjpeg62-turbo-dev')
             ->addPackage('libpng-dev')
-            ->addPeclPackageToConfigure('gd', '--with-jpeg-dir --with-png-dir')
-            ->addExtensionToInstall('gd')
+            ->addPeclExtension(
+                new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg-dir --with-png-dir')
+            )
         ;
     }
 }

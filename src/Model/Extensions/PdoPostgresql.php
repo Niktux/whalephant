@@ -6,6 +6,8 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class PdoPostgresql implements Extension
 {
@@ -18,7 +20,9 @@ class PdoPostgresql implements Extension
     {
         return (new Recipe())
             ->addPackage('libpq-dev')
-            ->addExtensionToInstall('pdo_pgsql')
+            ->addPeclExtension(
+                new PeclExtension('pdo_pgsql', $version, PeclInstallationMode::docker())
+            )
         ;
     }
 }

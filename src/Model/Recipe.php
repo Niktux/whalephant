@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model;
 
+use Whalephant\Model\Collections\PeclExtensionCollection;
+use Whalephant\Model\ValueObjects\PeclExtension;
+
 class Recipe
 {
     private
@@ -11,8 +14,7 @@ class Recipe
         $needAutomake,
         $packages,
         $macros,
-        $pecl,
-        $extensions,
+        $peclExtensions,
         $ini;
     
     public function __construct()
@@ -27,17 +29,8 @@ class Recipe
         $this->needAutomake = false;
         $this->packages = [];
         $this->macros = [];
-        
-        $this->pecl = [
-            'install' => [],
-            'configure' => [],
-            'enable' => [],
-        ];
-        
-        $this->extensions = [
-            'install' => []
-        ];
-        
+        $this->peclExtensions = new PeclExtensionCollection();
+
         $this->ini = [];
     }
     
@@ -75,38 +68,14 @@ class Recipe
         
         return $this;
     }
-    
-    public function addPeclPackageToInstall(string $package): self
+
+    public function addPeclExtension(PeclExtension $extension): self
     {
-        $this->pecl['install'][] = $package;
-        
-        return $this;
-    }
-    
-    public function addPeclPackageToConfigure(string $package, string $options = ''): self
-    {
-        $this->pecl['configure'][] = [
-            'name' => $package,
-            'options' => $options,
-        ];
+        $this->peclExtensions->add($extension);
 
         return $this;
     }
 
-    public function addPeclPackageToEnable(string $package): self
-    {
-        $this->pecl['enable'][] = $package;
-
-        return $this;
-    }
-    
-    public function addExtensionToInstall(string $extension): self
-    {
-        $this->extensions['install'][] = $extension;
-        
-        return $this;
-    }
-    
     public function addIniDirective(string $line): self
     {
         $this->ini[] = $line;
@@ -149,25 +118,10 @@ class Recipe
         {
             $merged->addMacroNameForIncludingSpecificCode($macro);
         }
-        
-        foreach($this->pecl['install'] as $package)
-        {
-            $merged->addPeclPackageToInstall($package);
-        }
-        
-        foreach($this->pecl['configure'] as $package)
-        {
-            $merged->addPeclPackageToConfigure($package['name'], $package['options']);
-        }
 
-        foreach($this->pecl['enable'] as $package)
+        foreach($this->peclExtensions as $extension)
         {
-            $merged->addPeclPackageToEnable($package);
-        }
-        
-        foreach($this->extensions['install'] as $extension)
-        {
-            $merged->addExtensionToInstall($extension);
+            $merged->addPeclExtension($extension);
         }
         
         foreach($this->ini as $line)
@@ -191,12 +145,8 @@ class Recipe
         $this->macros = array_unique($this->macros);
         $this->ini = array_unique($this->ini);
 
-        $this->pecl['install'] = array_unique($this->pecl['install']);
-        $this->pecl['enable'] = array_unique($this->pecl['enable']);
-        $this->pecl['configure'] = array_unique($this->pecl['configure']);
+        $this->peclExtensions = $this->peclExtensions->unique();
 
-        $this->extensions['install'] = array_unique($this->extensions['install']);
-        
         return $this;
     }
     
@@ -219,27 +169,12 @@ class Recipe
     {
         return $this->ini;
     }
-    
-    public function getPeclPackagesToInstall(): array
+
+    public function peclExtensions(): PeclExtensionCollection
     {
-        return $this->pecl['install'];
-    }
-    
-    public function getPeclPackagesToConfigure(): array
-    {
-        return $this->pecl['configure'];
+        return $this->peclExtensions;
     }
 
-    public function getPeclPackagesToEnable(): array
-    {
-        return $this->pecl['enable'];
-    }
-
-    public function getExtensionsToInstall(): array
-    {
-        return $this->extensions['install'];
-    }
-    
     public function getMinimumPhp(): ?string
     {
         return $this->requires['php']['min'];

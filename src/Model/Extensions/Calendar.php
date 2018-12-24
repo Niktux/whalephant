@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Calendar implements Extension
 {
-    use VersionableExtension;
-
     public function getName(): string
     {
         return "calendar";
@@ -20,7 +19,9 @@ class Calendar implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addExtensionToInstall('calendar')
+            ->addPeclExtension(
+                new PeclExtension('calendar', $version, PeclInstallationMode::docker())
+            )
         ;
     }
 }

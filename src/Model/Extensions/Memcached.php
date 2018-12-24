@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Memcached implements Extension
 {
-    use VersionableExtension;
-    
     public function getName(): string
     {
         return "memcached";
@@ -34,8 +33,9 @@ class Memcached implements Extension
         return $recipe
             ->addPackage('libmemcached-dev')
             ->addPackage('zlib1g-dev')
-            ->addPeclPackageToInstall($this->versionedName('memcached', $version))
-            ->addPeclPackageToEnable('memcached')
+            ->addPeclExtension(
+                new PeclExtension('memcached', $version, PeclInstallationMode::pecl())
+            )
         ;
     }
 }
