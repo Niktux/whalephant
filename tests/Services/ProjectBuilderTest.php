@@ -68,7 +68,7 @@ class ProjectBuilderTest extends TestCase
 
         $recipe = $project->getRecipe();
         $this->assertTrue($recipe instanceof Recipe);
-        $this->assertCount(1, $recipe->getPeclPackagesToInstall());
+        $this->assertCount(1, $recipe->peclExtensions());
     }
 
     /**

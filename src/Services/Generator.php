@@ -31,18 +31,9 @@ class Generator
         $recipe = $project->getRecipe();
         
         $dockerfile = $this->twig->render('layout.twig', [
-                'php' => $project->getPhp(),
-                'system' => [
-                'packages' => $recipe->getPackages(),
-            ],
-            'pecl' => [
-                'install' => $recipe->getPeclPackagesToInstall(),
-                'configure' => $recipe->getPeclPackagesToConfigure(),
-                'enable' => $recipe->getPeclPackagesToEnable(),
-            ],
-            'extensions' => [
-                'install' => $recipe->getExtensionsToInstall(),
-            ],
+            'php' => $project->getPhp(),
+            'systemPackages' => $recipe->systemPackages(),
+            'peclExtensions' => $recipe->peclExtensions(),
             'macroList' => $recipe->getMacros(),
             'project' => $project,
             'needAutomake' => $recipe->getAutomakeNeeded(),

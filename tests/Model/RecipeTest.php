@@ -6,6 +6,7 @@ namespace Whalephant\Model;
 
 use PHPUnit\Framework\TestCase;
 use Puzzle\Assert\ArrayRelated;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class RecipeTest extends TestCase
 {
@@ -18,13 +19,13 @@ class RecipeTest extends TestCase
     {
         $r1 = new Recipe();
         $r1->minimumPhp('5.5');
-        $r1->addPackage('p1');
+        $r1->addSystemPackage(new SystemPackage('p1'));
         $r1->addIniDirective('pony');
         
         $r2 = new Recipe();
         $r2->maximumPhp('7.1.2');
-        $r2->addPackage('p2');
-        $r2->addPackage('p3');
+        $r2->addSystemPackage(new SystemPackage('p2'));
+        $r2->addSystemPackage(new SystemPackage('p3'));
 
         $merged = $r1->mergeWith($r2);
         
@@ -47,10 +48,10 @@ class RecipeTest extends TestCase
         
         $r4 = new Recipe();
         //$r4->minimumPhp('5.5.1');
-        $r4->addPackage('p1');
-        $r4->addPackage('p1');
-        $r4->addPackage('p2');
-        $r4->addPackage('p4');
+        $r4->addSystemPackage(new SystemPackage('p1'));
+        $r4->addSystemPackage(new SystemPackage('p1'));
+        $r4->addSystemPackage(new SystemPackage('p2'));
+        $r4->addSystemPackage(new SystemPackage('p4'));
         $r4->addMacroNameForIncludingSpecificCode('r4');
         $r4->addIniDirective('unicorn');
         $r4->addIniDirective('pony');
@@ -72,7 +73,7 @@ class RecipeTest extends TestCase
     
     private function assertPackages(array $expected, Recipe $recipe): void
     {
-        $this->assertSameArrayExceptOrder($expected, $recipe->getPackages());
+        $this->assertSameArrayExceptOrder($expected, $recipe->systemPackages()->toArrayOfStrings());
     }
     
     private function assertIniDirectives(array $expected, Recipe $recipe): void

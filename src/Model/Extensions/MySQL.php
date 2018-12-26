@@ -6,6 +6,8 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class MySQL implements Extension
 {
@@ -17,7 +19,9 @@ class MySQL implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addExtensionToInstall('pdo_mysql')
+            ->addPeclExtension(
+                new PeclExtension('pdo_mysql', $version, PeclInstallationMode::docker())
+            )
         ;
     }
 }

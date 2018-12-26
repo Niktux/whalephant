@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Redis implements Extension
 {
-    use VersionableExtension;
-
     public function getName(): string
     {
         return "redis";
@@ -20,8 +19,9 @@ class Redis implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addPeclPackageToInstall($this->versionedName('redis', $version))
-            ->addPeclPackageToEnable('redis')
+            ->addPeclExtension(
+                new PeclExtension('redis', $version, PeclInstallationMode::pecl())
+            )
         ;
     }
 }

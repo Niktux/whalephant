@@ -6,12 +6,11 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
-use Whalephant\Model\VersionableExtension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Amqp implements Extension
 {
-    use VersionableExtension;
-    
     public function getName(): string
     {
         return "amqp";
@@ -23,12 +22,13 @@ class Amqp implements Extension
         {
             $version = '1.7.1';
         }
-        
+
         return (new Recipe())
             ->needAutomake()
             ->addMacroNameForIncludingSpecificCode('amqp')
-            ->addPeclPackageToInstall($this->versionedName('amqp', $version))
-            ->addPeclPackageToEnable('amqp')
+            ->addPeclExtension(
+                new PeclExtension('amqp', $version, PeclInstallationMode::pecl())
+            )
         ;
     }
 }
