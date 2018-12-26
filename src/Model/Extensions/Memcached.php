@@ -8,6 +8,7 @@ use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
 use Whalephant\Model\ValueObjects\PeclInstallationMode;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Memcached implements Extension
 {
@@ -31,8 +32,8 @@ class Memcached implements Extension
         }
         
         return $recipe
-            ->addPackage('libmemcached-dev')
-            ->addPackage('zlib1g-dev')
+            ->addSystemPackage(new SystemPackage('libmemcached-dev'))
+            ->addSystemPackage(new SystemPackage('zlib1g-dev'))
             ->addPeclExtension(
                 new PeclExtension('memcached', $version, PeclInstallationMode::pecl())
             )

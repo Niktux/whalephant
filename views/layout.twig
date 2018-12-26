@@ -1,6 +1,6 @@
 {% import 'macro.twig' as macro %}
 FROM php:{{ php.version }}-{{ php.variant }}
-{%- if system.packages is not empty or needAutomake == true %}
+{%- if systemPackages is not empty or needAutomake == true %}
 
 RUN echo 'APT::Install-Recommends "0";' >>/etc/apt/apt.conf.d/99-recommends && \
     echo 'APT::Install-Suggests "0";' >>/etc/apt/apt.conf.d/99-suggests
@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \ 
     apt-get install -y automake \
                        build-essential \
-                       {% for package in system.packages %}{{ package }} \
+                       {% for package in systemPackages %}{{ package }} \
                        {% endfor %}
                         libtool && \
     apt-get -y autoremove && \

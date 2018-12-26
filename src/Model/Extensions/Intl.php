@@ -8,6 +8,7 @@ use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
 use Whalephant\Model\ValueObjects\PeclInstallationMode;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Intl implements Extension
 {
@@ -19,7 +20,7 @@ class Intl implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addPackage('libicu-dev')
+            ->addSystemPackage(new SystemPackage('libicu-dev'))
             ->addPeclExtension(
                 new PeclExtension('intl', $version, PeclInstallationMode::docker())
             )

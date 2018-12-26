@@ -6,17 +6,19 @@ namespace Whalephant\Model;
 
 use Whalephant\Model\Collections\PeclExtensionCollection;
 use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\SystemPackage;
+use Whalephant\Model\Collections\SystemPackageCollection;
 
 class Recipe
 {
     private
         $requires,
         $needAutomake,
-        $packages,
         $macros,
+        $systemPackages,
         $peclExtensions,
         $ini;
-    
+
     public function __construct()
     {
         $this->requires = [
@@ -25,15 +27,15 @@ class Recipe
                 'max' => null,
             ],
         ];
-        
+
         $this->needAutomake = false;
-        $this->packages = [];
         $this->macros = [];
+        $this->systemPackages = new SystemPackageCollection();
         $this->peclExtensions = new PeclExtensionCollection();
 
         $this->ini = [];
     }
-    
+
     public function minimumPhp(string $version): self
     {
         $this->requires['php']['min'] = $version;
@@ -55,9 +57,9 @@ class Recipe
         return $this;
     }
     
-    public function addPackage(string $packageName): self
+    public function addSystemPackage(SystemPackage $package): self
     {
-        $this->packages[] = $packageName;
+        $this->systemPackages->add($package);
         
         return $this;
     }
@@ -109,9 +111,9 @@ class Recipe
             }
         }
         
-        foreach($this->packages as $package)
+        foreach($this->systemPackages as $package)
         {
-            $merged->addPackage($package);
+            $merged->addSystemPackage($package);
         }
         
         foreach($this->macros as $macro)
@@ -141,7 +143,7 @@ class Recipe
     
     public function pack(): self
     {
-        $this->packages = array_unique($this->packages);
+        $this->systemPackages = $this->systemPackages->unique();
         $this->macros = array_unique($this->macros);
         $this->ini = array_unique($this->ini);
 
@@ -155,9 +157,9 @@ class Recipe
         return $this->needAutomake;
     }
     
-    public function getPackages(): array
+    public function systemPackages(): SystemPackageCollection
     {
-        return $this->packages;
+        return $this->systemPackages;
     }
     
     public function getMacros(): array

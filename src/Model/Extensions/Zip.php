@@ -6,6 +6,7 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Zip implements Extension
 {
@@ -17,7 +18,7 @@ class Zip implements Extension
     public function getRecipe(?string $version = null): Recipe
     {
         return (new Recipe())
-            ->addPackage('zlib1g-dev')
+            ->addSystemPackage(new SystemPackage('zlib1g-dev'))
             ->addMacroNameForIncludingSpecificCode('zip')
         ;
     }

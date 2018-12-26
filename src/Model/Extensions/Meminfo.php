@@ -6,6 +6,7 @@ namespace Whalephant\Model\Extensions;
 
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Meminfo implements Extension
 {
@@ -31,8 +32,8 @@ class Meminfo implements Extension
         }
 
         return $recipe
-            ->addPackage('git')
-            ->addPackage('unzip')
+            ->addSystemPackage(new SystemPackage('git'))
+            ->addSystemPackage(new SystemPackage('unzip'))
             ->addIniDirective('extension=meminfo.so')
         ;
     }
