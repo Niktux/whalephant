@@ -26,7 +26,7 @@ class Extensions extends AbstractCommand
     
     protected function doExecute(InputInterface $input, OutputInterface $output): void
     {
-        $output->writeln('Suported extensions are :');
+        $output->writeln('Supported extensions are :');
 
         foreach($this->provider->listNames() as $name)
         {

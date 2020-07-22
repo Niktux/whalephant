@@ -54,7 +54,7 @@ class Project
         foreach($this->extensions as $extensionInfo)
         {
             $extension = $extensionInfo['extension'];
-            $merged = $merged->mergeWith($extension->getRecipe($extensionInfo['version']));
+            $merged = $merged->mergeWith($extension->getRecipe($this->php, $extensionInfo['version']));
         }
         
         // TODO remove me

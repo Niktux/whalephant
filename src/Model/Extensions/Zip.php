@@ -4,8 +4,11 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
+use Whalephant\Model\Php;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
+use Whalephant\Model\ValueObjects\PeclExtension;
+use Whalephant\Model\ValueObjects\PeclInstallationMode;
 use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Zip implements Extension
@@ -15,11 +18,13 @@ class Zip implements Extension
         return "zip";
     }
     
-    public function getRecipe(?string $version = null): Recipe
+    public function getRecipe(Php $php, ?string $version = null): Recipe
     {
         return (new Recipe())
             ->addSystemPackage(new SystemPackage('zlib1g-dev'))
-            ->addMacroNameForIncludingSpecificCode('zip')
+            ->addSystemPackage(new SystemPackage('libzip-dev'))
+            ->addPeclExtension(new PeclExtension("zip", null, PeclInstallationMode::docker()))
+            //->addMacroNameForIncludingSpecificCode('zip')
         ;
     }
 }

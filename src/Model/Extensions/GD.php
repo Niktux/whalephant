@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
+use Whalephant\Model\Php;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
@@ -17,15 +18,30 @@ class GD implements Extension
         return "gd";
     }
     
-    public function getRecipe(?string $version = null): Recipe
+    public function getRecipe(Php $php, ?string $version = null): Recipe
     {
-        return (new Recipe())
+        $recipe = (new Recipe())
             ->addSystemPackage(new SystemPackage('libfreetype6-dev '))
             ->addSystemPackage(new SystemPackage('libjpeg62-turbo-dev'))
-            ->addSystemPackage(new SystemPackage('libpng-dev'))
-            ->addPeclExtension(
-                new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg-dir --with-png-dir')
-            )
-        ;
+            ->addSystemPackage(new SystemPackage('libpng-dev'));
+
+        if($php->isGreaterOrEqualThan('7.4'))
+        {
+            $recipe
+                ->minimumPhp('7.4')
+                ->addPeclExtension(
+                    new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg')
+            );
+        }
+        else
+        {
+            $recipe
+                ->maximumPhp('7.3')
+                ->addPeclExtension(
+                    new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg-dir --with-png-dir')
+            );
+        }
+
+        return $recipe;
     }
 }

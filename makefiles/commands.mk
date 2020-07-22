@@ -30,6 +30,7 @@ exec_on_generated = docker run -it --rm --name whalephant_test whalephant-genera
 only-test: ## Build container from generated Dockerfile and display php info
 	docker build -t whalephant-generated ${CLI_ARGS}
 	$(call exec_on_generated, php -m)
+	$(call exec_on_generated, php -v)
 
 connect: ## Build container from generated Dockerfile and run bash
 	$(call exec_on_generated, /bin/bash)

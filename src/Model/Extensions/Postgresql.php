@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
+use Whalephant\Model\Php;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
@@ -17,7 +18,7 @@ class Postgresql implements Extension
         return "postgresql";
     }
 
-    public function getRecipe(?string $version = null): Recipe
+    public function getRecipe(Php $php, ?string $version = null): Recipe
     {
         return (new Recipe())
             ->addSystemPackage(new SystemPackage('libpq-dev'))

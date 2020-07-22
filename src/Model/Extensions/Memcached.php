@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model\Extensions;
 
+use Whalephant\Model\Php;
 use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
@@ -17,7 +18,7 @@ class Memcached implements Extension
         return "memcached";
     }
     
-    public function getRecipe(?string $version = null): Recipe
+    public function getRecipe(Php $php, ?string $version = null): Recipe
     {
         $recipe = new Recipe();
         

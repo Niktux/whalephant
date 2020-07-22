@@ -1,12 +1,3 @@
-{# - ZIP ------------------------------------------------------------------- #}
-{% macro zip() %}
-    # Due to issue https://github.com/docker-library/php/issues/233
-    # Crappy workaround
-    RUN docker-php-ext-install zlib; exit 0
-    RUN cp /usr/src/php/ext/zlib/config0.m4 /usr/src/php/ext/zlib/config.m4
-    RUN docker-php-ext-install zlib zip
-{% endmacro %}
-
 {# - AMQP ------------------------------------------------------------------ #}
 {% macro amqp() %}
 ENV RABBITMQ_VERSION 0.8.0
