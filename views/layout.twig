@@ -12,7 +12,8 @@ RUN apt-get update && \
                        build-essential \
                        {% for package in systemPackages %}{{ package }} \
                        {% endfor %}
-                        libtool && \
+                        libtool \
+                        ca-certificates && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
