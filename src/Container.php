@@ -26,12 +26,8 @@ class Container extends \Pimple\Container
         $this['logger'] = null;
         $this['configuration'] = $configuration;
 
-        $this->enableDebug();
         $this->initializePaths($rootDir);
-        $this->registerProviders();
         $this->initializeServices();
-
-        $this->mountControllerProviders();
     }
 
     private function initializePaths(string $rootDir): void
@@ -41,19 +37,9 @@ class Container extends \Pimple\Container
         $this['var.path'] = $this['root.path'] . $this->removeWrappingSlashes($this['configuration']->readRequired('app/var.path')) . DIRECTORY_SEPARATOR;
     }
 
-    private function enableDebug(): void
-    {
-        $this['debug'] = $this['configuration']->read('app/debug', false);
-    }
-
-    protected function registerProviders(): void
-    {
-        $this->register(new Providers\Twig());
-    }
-
     protected function initializeServices(): void
     {
-        $this->configureTwig();
+        $this->register(new Providers\Twig());
 
         $this['generator'] = function() {
             return new Generator($this['project.builder'], $this['twig']);
@@ -66,16 +52,5 @@ class Container extends \Pimple\Container
         $this['extension.provider'] = static function() {
             return new ArrayProvider();
         };
-    }
-
-    private function configureTwig(): void
-    {
-        $this['view.manager']->addPath(array(
-            $this['root.path'] . 'views/',
-        ));
-    }
-
-    protected function mountControllerProviders(): void
-    {
     }
 }
