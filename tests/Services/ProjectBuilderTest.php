@@ -27,7 +27,6 @@ class ProjectBuilderTest extends TestCase
                 'amqp',
                 'calendar',
                 'gd',
-                'memcached:3.0.3',
                 'mysql',
                 'pdo-postgresql:1.0',
                 'postgresql:1.0',
