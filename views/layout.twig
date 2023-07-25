@@ -1,4 +1,3 @@
-{% import 'macro.twig' as macro %}
 FROM php:{{ php.version }}-{{ php.variant }}
 {%- if systemPackages is not empty or needAutomake == true %}
 
@@ -20,9 +19,8 @@ RUN apt-get update && \
 {% endif %}
 
 
-{% for macroName in macroList %}
-    {{ attribute(macro, macroName) is defined ? 'Method exists' : 'Method does not exist' }}
-{{ attribute(macro, macroName) }}
+{% for specificCode in specificCodes %}
+{{ specificCode.code|raw }}
 {% endfor %}
 
 {%- if peclExtensions.installByPecl is not empty %}

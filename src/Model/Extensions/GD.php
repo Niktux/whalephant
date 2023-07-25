@@ -13,12 +13,12 @@ use Whalephant\Model\ValueObjects\SystemPackage;
 
 class GD implements Extension
 {
-    public function getName(): string
+    public function name(): string
     {
         return "gd";
     }
     
-    public function getRecipe(Php $php, ?string $version = null): Recipe
+    public function recipe(Php $php, ?string $version = null): Recipe
     {
         $recipe = (new Recipe())
             ->addSystemPackage(new SystemPackage('libfreetype6-dev '))
@@ -28,7 +28,7 @@ class GD implements Extension
         if($php->isGreaterOrEqualThan('7.4'))
         {
             $recipe
-                ->minimumPhp('7.4')
+                ->defineMinimumPhp('7.4')
                 ->addPeclExtension(
                     new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg')
             );
@@ -36,7 +36,7 @@ class GD implements Extension
         else
         {
             $recipe
-                ->maximumPhp('7.3')
+                ->defineMaximumPhp('7.3')
                 ->addPeclExtension(
                     new PeclExtension('gd', $version, PeclInstallationMode::docker(), '--with-jpeg-dir --with-png-dir')
             );

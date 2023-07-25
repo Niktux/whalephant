@@ -9,15 +9,17 @@ use Whalephant\Model\Recipe;
 use Whalephant\Model\Extension;
 use Whalephant\Model\ValueObjects\PeclExtension;
 use Whalephant\Model\ValueObjects\PeclInstallationMode;
+use Whalephant\Model\ValueObjects\SpecificCode;
+use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Amqp implements Extension
 {
-    public function getName(): string
+    public function name(): string
     {
         return "amqp";
     }
     
-    public function getRecipe(Php $php, ?string $version = null): Recipe
+    public function recipe(Php $php, ?string $version = null): Recipe
     {
         if($version === null)
         {
@@ -26,7 +28,7 @@ class Amqp implements Extension
 
         return (new Recipe())
             ->needAutomake()
-            ->addMacroNameForIncludingSpecificCode('amqp')
+            ->addSystemPackage(new SystemPackage('librabbitmq-dev'))
             ->addPeclExtension(
                 new PeclExtension('amqp', $version, PeclInstallationMode::pecl())
             )

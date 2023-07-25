@@ -13,12 +13,12 @@ use Whalephant\Model\ValueObjects\SystemPackage;
 
 class Postgresql implements Extension
 {
-    public function getName(): string
+    public function name(): string
     {
         return "postgresql";
     }
 
-    public function getRecipe(Php $php, ?string $version = null): Recipe
+    public function recipe(Php $php, ?string $version = null): Recipe
     {
         return (new Recipe())
             ->addSystemPackage(new SystemPackage('libpq-dev'))

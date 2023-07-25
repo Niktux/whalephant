@@ -12,12 +12,12 @@ use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Xdebug implements Extension
 {
-    public function getName(): string
+    public function name(): string
     {
         return "xdebug";
     }
     
-    public function getRecipe(Php $php, ?string $version = null): Recipe
+    public function recipe(Php $php, ?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPeclExtension(

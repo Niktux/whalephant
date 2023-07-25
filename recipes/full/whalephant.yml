@@ -3,7 +3,7 @@ php:
     version: 8.2
     variant: cli
 extensions:
-    - amqp
+    - amqp:1.11.0
     - calendar
     - gd
     - imagick

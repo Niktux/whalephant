@@ -19,6 +19,7 @@ recipes/simple/*/php.ini
 whalephant.phar
 box.phar
 coverage/
+.phpunit.result.cache
 
 #================================================
 # IDE files

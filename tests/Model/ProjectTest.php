@@ -13,7 +13,7 @@ class ProjectTest extends TestCase
         $project = new Project('unicorn', new Php('5.6'));
         
         $recipe = new Recipe();
-        $recipe->minimumPhp('7');
+        $recipe->defineMinimumPhp('7');
         
         $project->addRecipe($recipe);
         

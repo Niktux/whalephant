@@ -38,7 +38,6 @@ class ArrayProvider implements ExtensionProvider
             ->register(new Zip())
             ->register(new Meminfo())
             ->register(new Redis())
-            ->register(new Memcached())
             ->register(new MySQL())
             ->register(new PdoPostgresql())
             ->register(new Postgresql())
@@ -50,7 +49,7 @@ class ArrayProvider implements ExtensionProvider
 
     private function register(Extension $e): self
     {
-        $this->extensions[strtolower($e->getName())] = $e;
+        $this->extensions[strtolower($e->name())] = $e;
 
         return $this;
     }

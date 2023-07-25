@@ -29,15 +29,15 @@ class GeneratorTest extends TestCase
         $fs->write(Container::WHALEPHANT_FILENAME, <<<YAML
 name: test
 php:
-    version: 5.6
+    version: 7.3
 extensions:
-    - meminfo:5
+    - meminfo:7
 YAML
 );
         $this->generator->generate($fs);
         
-        $this->assertTrue($fs->has('Dockerfile'));
-        $this->assertTrue($fs->has('php.ini'));
+        self::assertTrue($fs->has('Dockerfile'));
+        self::assertTrue($fs->has('php.ini'));
     }
     
     public function testGenerateMissingWhalephantFile(): void

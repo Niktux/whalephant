@@ -35,14 +35,14 @@ class Generator
             'php' => $project->getPhp(),
             'systemPackages' => $recipe->systemPackages(),
             'peclExtensions' => $recipe->peclExtensions(),
-            'macroList' => $recipe->getMacros(),
+            'specificCodes' => $recipe->specificCodes(),
             'project' => $project,
-            'needAutomake' => $recipe->getAutomakeNeeded(),
+            'needAutomake' => $recipe->automakeNeeded(),
         ]);
         
         $fs->write("Dockerfile", $dockerfile, true);
         $fs->write("php.ini",
-            implode("\n", $recipe->getIniDirectives()) . "\n",
+            implode("\n", $recipe->iniDirectives()) . "\n",
             true
         );
     }

@@ -9,7 +9,7 @@ use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class PeclExtensionCollection implements \IteratorAggregate, \Countable
 {
-    private
+    private array
         $extensions;
 
     public function __construct(iterable $extensions = [])
@@ -25,13 +25,14 @@ class PeclExtensionCollection implements \IteratorAggregate, \Countable
         }
     }
 
-    public function add(PeclExtension $extension): self
+    public function add(PeclExtension $extension): void
     {
         $this->extensions[] = $extension;
-
-        return $this;
     }
 
+    /**
+     * @return PeclExtension[]
+     */
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->extensions);

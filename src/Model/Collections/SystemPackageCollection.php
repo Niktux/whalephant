@@ -8,7 +8,7 @@ use Whalephant\Model\ValueObjects\SystemPackage;
 
 class SystemPackageCollection implements \IteratorAggregate, \Countable
 {
-    private
+    private array
         $packages;
 
     public function __construct(iterable $packages = [])
@@ -24,13 +24,14 @@ class SystemPackageCollection implements \IteratorAggregate, \Countable
         }
     }
 
-    public function add(SystemPackage $package): self
+    public function add(SystemPackage $package): void
     {
         $this->packages[] = $package;
-
-        return $this;
     }
 
+    /**
+     * @return SystemPackage[]
+     */
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->packages);

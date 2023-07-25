@@ -49,7 +49,7 @@ class ProjectBuilderTest extends TestCase
 
         $recipe = $project->getRecipe();
         self::assertTrue($recipe instanceof Recipe);
-        self::assertCount(2, $recipe->getIniDirectives());
+        self::assertCount(2, $recipe->iniDirectives());
     }
 
     public function testParseExtensionVersion(): void
