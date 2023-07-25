@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use Whalephant\Application;
+use Whalephant\Container;
 use Whalephant\Console;
 use Puzzle\Configuration\Memory;
 
@@ -26,7 +26,7 @@ $configuration = new Memory([
 	'twig/cache/directory' => false
 ]);
 
-$app = new Application($configuration, $rootDir);
+$app = new Container($configuration, $rootDir);
 
 $console = new Console($app);
 $console->run();

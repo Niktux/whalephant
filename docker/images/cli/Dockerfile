@@ -1,4 +1,4 @@
-FROM php:7.1-cli
+FROM php:8.2-cli
 
 RUN echo 'APT::Install-Recommends "0";' >>/etc/apt/apt.conf.d/99-recommends && \
     echo 'APT::Install-Suggests "0";' >>/etc/apt/apt.conf.d/99-suggests
@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pecl install xdebug && \
+RUN pecl install xdebug-3.2.2 && \
     docker-php-ext-enable xdebug
 
 WORKDIR /usr/src/whalephant

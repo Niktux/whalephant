@@ -4,19 +4,26 @@ declare(strict_types = 1);
 
 namespace Whalephant\Model;
 
+use Whalephant\Model\Collections\SpecificCodeCollection;
 use Whalephant\Model\Collections\PeclExtensionCollection;
+use Whalephant\Model\ValueObjects\SpecificCode;
 use Whalephant\Model\ValueObjects\PeclExtension;
 use Whalephant\Model\ValueObjects\SystemPackage;
 use Whalephant\Model\Collections\SystemPackageCollection;
 
 class Recipe
 {
-    private
-        $requires,
-        $needAutomake,
-        $macros,
-        $systemPackages,
-        $peclExtensions,
+    private array
+        $requires;
+    private bool
+        $needAutomake;
+    private SpecificCodeCollection
+        $specificCodes;
+    private SystemPackageCollection
+        $systemPackages;
+    private PeclExtensionCollection
+        $peclExtensions;
+    private array
         $ini;
 
     public function __construct()
@@ -29,21 +36,21 @@ class Recipe
         ];
 
         $this->needAutomake = false;
-        $this->macros = [];
+        $this->specificCodes = new SpecificCodeCollection();
         $this->systemPackages = new SystemPackageCollection();
         $this->peclExtensions = new PeclExtensionCollection();
 
         $this->ini = [];
     }
 
-    public function minimumPhp(string $version): self
+    public function defineMinimumPhp(string $version): self
     {
         $this->requires['php']['min'] = $version;
         
         return $this;
     }
     
-    public function maximumPhp(string $version): self
+    public function defineMaximumPhp(string $version): self
     {
         $this->requires['php']['max'] = $version;
         
@@ -64,10 +71,10 @@ class Recipe
         return $this;
     }
     
-    public function addMacroNameForIncludingSpecificCode(string $macro): self
+    public function addSpecificCode(SpecificCode $code): self
     {
-        $this->macros[] = $macro;
-        
+        $this->specificCodes->add($code);
+
         return $this;
     }
 
@@ -96,7 +103,7 @@ class Recipe
             if($recipe->requires['php']['min'] === null
             || $php->isGreaterOrEqualThan($recipe->requires['php']['min']))
             {
-                $merged->minimumPhp($php->version);
+                $merged->defineMinimumPhp($php->version);
             }
         }
         
@@ -107,7 +114,7 @@ class Recipe
             if($recipe->requires['php']['max'] === null
             || $php->isLowerOrEqualThan($recipe->requires['php']['max']))
             {
-                $merged->maximumPhp($php->version);
+                $merged->defineMaximumPhp($php->version);
             }
         }
         
@@ -116,9 +123,9 @@ class Recipe
             $merged->addSystemPackage($package);
         }
         
-        foreach($this->macros as $macro)
+        foreach($this->specificCodes as $macro)
         {
-            $merged->addMacroNameForIncludingSpecificCode($macro);
+            $merged->addSpecificCode($macro);
         }
 
         foreach($this->peclExtensions as $extension)
@@ -144,7 +151,7 @@ class Recipe
     public function pack(): self
     {
         $this->systemPackages = $this->systemPackages->unique();
-        $this->macros = array_unique($this->macros);
+        $this->specificCodes = $this->specificCodes->unique();
         $this->ini = array_unique($this->ini);
 
         $this->peclExtensions = $this->peclExtensions->unique();
@@ -152,7 +159,7 @@ class Recipe
         return $this;
     }
     
-    public function getAutomakeNeeded(): bool
+    public function automakeNeeded(): bool
     {
         return $this->needAutomake;
     }
@@ -162,12 +169,12 @@ class Recipe
         return $this->systemPackages;
     }
     
-    public function getMacros(): array
+    public function specificCodes(): SpecificCodeCollection
     {
-        return $this->macros;
+        return $this->specificCodes;
     }
     
-    public function getIniDirectives(): array
+    public function iniDirectives(): array
     {
         return $this->ini;
     }
@@ -177,12 +184,12 @@ class Recipe
         return $this->peclExtensions;
     }
 
-    public function getMinimumPhp(): ?string
+    public function minimumPhp(): ?string
     {
         return $this->requires['php']['min'];
     }
     
-    public function getMaximumPhp(): ?string
+    public function maximumPhp(): ?string
     {
         return $this->requires['php']['max'];
     }

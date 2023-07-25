@@ -6,7 +6,7 @@ use Pimple\Container;
 
 class Console
 {
-    private
+    private Console\Application
         $app;
 
     public function __construct(Container $container)

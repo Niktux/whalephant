@@ -6,10 +6,12 @@ namespace Whalephant\Model;
 
 class Project
 {
-    private
-        $name,
+    private string
+        $name;
+    private array
         $recipes,
-        $extensions,
+        $extensions;
+    private Php
         $php;
     
     public function __construct(string $name, Php $php)
@@ -54,7 +56,7 @@ class Project
         foreach($this->extensions as $extensionInfo)
         {
             $extension = $extensionInfo['extension'];
-            $merged = $merged->mergeWith($extension->getRecipe($this->php, $extensionInfo['version']));
+            $merged = $merged->mergeWith($extension->recipe($this->php, $extensionInfo['version']));
         }
         
         // TODO remove me
@@ -67,10 +69,10 @@ class Project
     
     private function checkPhpRequirements(Recipe $recipe): void
     {
-        if(! $this->php->isCompatibleWith($recipe->getMinimumPhp(), $recipe->getMaximumPhp()))
+        if(! $this->php->isCompatibleWith($recipe->minimumPhp(), $recipe->maximumPhp()))
         {
-            $min = $recipe->getMinimumPhp();
-            $max = $recipe->getMaximumPhp();
+            $min = $recipe->minimumPhp();
+            $max = $recipe->maximumPhp();
             
             throw new \InvalidArgumentException(sprintf(
                 "PHP %s is incompatible with requirements (%s)",

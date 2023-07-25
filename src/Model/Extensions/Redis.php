@@ -12,12 +12,12 @@ use Whalephant\Model\ValueObjects\PeclInstallationMode;
 
 class Redis implements Extension
 {
-    public function getName(): string
+    public function name(): string
     {
         return "redis";
     }
 
-    public function getRecipe(Php $php, ?string $version = null): Recipe
+    public function recipe(Php $php, ?string $version = null): Recipe
     {
         return (new Recipe())
             ->addPeclExtension(

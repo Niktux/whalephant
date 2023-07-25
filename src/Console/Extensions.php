@@ -2,13 +2,14 @@
 
 namespace Whalephant\Console;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Whalephant\Services\ExtensionProvider;
 
 class Extensions extends AbstractCommand
 {
-    private
+    private ExtensionProvider
         $provider;
     
     public function __construct(ExtensionProvider $provider)
@@ -24,7 +25,7 @@ class Extensions extends AbstractCommand
         ->setDescription('List supported extensions');
     }
     
-    protected function doExecute(InputInterface $input, OutputInterface $output): void
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Supported extensions are :');
 
@@ -32,5 +33,7 @@ class Extensions extends AbstractCommand
         {
             $output->writeln("<comment>$name</comment>");
         }
+
+        return Command::SUCCESS;
     }
 }

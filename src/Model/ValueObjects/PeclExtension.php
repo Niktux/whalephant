@@ -6,14 +6,18 @@ namespace Whalephant\Model\ValueObjects;
 
 final class PeclExtension
 {
-    private
-        $name,
-        $version,
-        $install,
-        $configureOptions,
+    private string
+        $name;
+    private ?string
+        $version;
+    private PeclInstallationMode
+        $install;
+    private ?string
+        $configureOptions;
+    private ?bool
         $enable;
 
-    public function __construct(string $name, ?string $version = null, PeclInstallationMode $install, ?string $configureOptions = null, ?bool $enable = null)
+    public function __construct(string $name, ?string $version, PeclInstallationMode $install, ?string $configureOptions = null, ?bool $enable = null)
     {
         $this->name = $name;
         $this->version = $version;

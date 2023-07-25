@@ -8,7 +8,7 @@ use Puzzle\Pieces\ConvertibleToString;
 
 final class SystemPackage implements ConvertibleToString
 {
-    private
+    private string
         $package;
 
     public function __construct(string $package)
