@@ -5,20 +5,12 @@ on:
 name: whalephant.phar
 
 jobs:
-  on-success:
-    whalephant.phar:
+    build-whalephant:
       runs-on: ubuntu-latest
       steps:
 
-        - name: Validate CI
-          uses: Niktux/whalephant/.github/workflows/ci.yml@main
-
         - name: Checkout
           uses: actions/checkout@v3
-          with:
-            repository: naoned/expo-packager
-            token: ${{ secrets.GH_ACTION_EXPO_PACKER_2 }}
-            ref: release-${{ steps.variabling.outputs.RELEASE_NAME }}
 
         - name: Install dependencies without dev requirements
           run: make composer-install-no-dev
@@ -29,6 +21,5 @@ jobs:
         - name: Publish release
           uses: softprops/action-gh-release@v1
           with:
-            files:
-              - ./whalephant.phar
+            files: whalephant.phar
             fail_on_unmatched_files: true
