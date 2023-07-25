@@ -21,6 +21,9 @@ composer.phar:
 composer-install: composer.phar
 	$(call composer_exec, install --ignore-platform-reqs)
 
+composer-install-no-dev: composer.phar
+	$(call composer_exec, install --ignore-platform-reqs --no-dev)
+
 composer-update: composer.phar
 	$(call composer_exec, update --ignore-platform-reqs)
 

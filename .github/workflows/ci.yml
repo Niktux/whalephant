@@ -1,0 +1,29 @@
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
+  workflow_call: # required to be able to trigger it from another workflow (ex: package)
+
+name: ci
+
+jobs:
+
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: [ '8.2' ]
+    steps:
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: make composer install
+
+      - name: Run tests
+        run: vendor/bin/phpunit -c phpunit.xml

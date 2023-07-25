@@ -4,7 +4,7 @@
 CONSOLE_IMAGE_NAME=whalephant/commands
 CONSOLE_CONTAINER_SOURCE_PATH=/usr/src/whalephant
 
-console_exec = docker run -it --rm --name whalephant_console \
+console_exec = ${DOCKER_RUN} --rm --name whalephant_console \
 	                 -v ${HOST_SOURCE_PATH}:${CONSOLE_CONTAINER_SOURCE_PATH} \
 	                 -w ${CONSOLE_CONTAINER_SOURCE_PATH} \
 	                 -u ${USER_ID}:${GROUP_ID} \
