@@ -19,7 +19,9 @@ RUN apt-get update && \
 
 {% endif %}
 
+
 {% for macroName in macroList %}
+    {{ attribute(macro, macroName) is defined ? 'Method exists' : 'Method does not exist' }}
 {{ attribute(macro, macroName) }}
 {% endfor %}
 

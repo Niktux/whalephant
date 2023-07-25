@@ -15,7 +15,7 @@ class RecipeTest extends TestCase
     /**
      * @dataProviders
      */
-    public function testMergeWith()
+    public function testMergeWith(): void
     {
         $r1 = new Recipe();
         $r1->minimumPhp('5.5');
@@ -30,12 +30,12 @@ class RecipeTest extends TestCase
         $merged = $r1->mergeWith($r2);
         
         // No side effect
-        $this->assertEmpty($r2->getIniDirectives());
+        self::assertEmpty($r2->getIniDirectives());
         
         $this->assertPhpVersion('5.5', '7.1.2', $merged);
         $this->assertPackages(['p1', 'p2', 'p3'], $merged);
         $this->assertIniDirectives(['pony'], $merged);
-        $this->assertFalse($merged->getAutomakeNeeded(), "Wrong <Need automake> flag");
+        self::assertFalse($merged->getAutomakeNeeded(), "Wrong <Need automake> flag");
         
         $r3 = new Recipe();
         $r3->needAutomake();
@@ -44,7 +44,7 @@ class RecipeTest extends TestCase
         
         $merged2 = $r3->mergeWith($merged);
         $this->assertPhpVersion('5.5', '7.0.9', $merged2);
-        $this->assertTrue($merged2->getAutomakeNeeded(), "Wrong <Need automake> flag");
+        self::assertTrue($merged2->getAutomakeNeeded(), "Wrong <Need automake> flag");
         
         $r4 = new Recipe();
         //$r4->minimumPhp('5.5.1');
@@ -62,13 +62,13 @@ class RecipeTest extends TestCase
         $this->assertPackages(['p1', 'p2', 'p3', 'p4'], $merged3);
         $this->assertIniDirectives(['pony', 'unicorn'], $merged3);
         $this->assertMacro(['r4'], $merged3);
-        $this->assertTrue($merged3->getAutomakeNeeded(), "Wrong <Need automake> flag");
+        self::assertTrue($merged3->getAutomakeNeeded(), "Wrong <Need automake> flag");
     }
     
     private function assertPhpVersion(string $min, string $max, Recipe $recipe): void
     {
-        $this->assertSame($min, $recipe->getMinimumPhp());
-        $this->assertSame($max, $recipe->getMaximumPhp());
+        self::assertSame($min, $recipe->getMinimumPhp());
+        self::assertSame($max, $recipe->getMaximumPhp());
     }
     
     private function assertPackages(array $expected, Recipe $recipe): void

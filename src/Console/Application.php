@@ -15,7 +15,7 @@ class Application extends \Symfony\Component\Console\Application
 
     public function getLogo(): string
     {
-        $version = str_pad(\Whalephant\Application::VERSION, 10, ' ');
+        $version = str_pad(\Whalephant\Container::VERSION, 10, ' ');
         
         return str_replace('%version%', $version, self::$logo);
     }

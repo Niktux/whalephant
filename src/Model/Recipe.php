@@ -11,12 +11,17 @@ use Whalephant\Model\Collections\SystemPackageCollection;
 
 class Recipe
 {
-    private
-        $requires,
-        $needAutomake,
-        $macros,
-        $systemPackages,
-        $peclExtensions,
+    private array
+        $requires;
+    private bool
+        $needAutomake;
+    private array
+        $macros;
+    private SystemPackageCollection
+        $systemPackages;
+    private PeclExtensionCollection
+        $peclExtensions;
+    private array
         $ini;
 
     public function __construct()

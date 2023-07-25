@@ -14,8 +14,10 @@ class Version extends Command
         ->setDescription('Show whalephant version');
     }
     
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(\Whalephant\Application::VERSION);
+        $output->writeln(\Whalephant\Container::VERSION);
+
+        return Command::SUCCESS;
     }
 }

@@ -10,15 +10,15 @@ use Whalephant\Model\Recipe;
 
 class ProjectBuilderTest extends TestCase
 {
-    private
+    private ProjectBuilder
         $builder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builder = new ProjectBuilder(new ArrayProvider());
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $config = new Memory([
             'name' => 'test',
@@ -43,16 +43,16 @@ class ProjectBuilderTest extends TestCase
 
         $project = $this->builder->build($config);
 
-        $this->assertTrue($project instanceof Project);
-        $this->assertSame('test', $project->getName());
-        $this->assertSame('7.1', $project->getPhp()->version);
+        self::assertTrue($project instanceof Project);
+        self::assertSame('test', $project->getName());
+        self::assertSame('7.1', $project->getPhp()->version);
 
         $recipe = $project->getRecipe();
-        $this->assertTrue($recipe instanceof Recipe);
-        $this->assertCount(2, $recipe->getIniDirectives());
+        self::assertTrue($recipe instanceof Recipe);
+        self::assertCount(2, $recipe->getIniDirectives());
     }
 
-    public function testParseExtensionVersion()
+    public function testParseExtensionVersion(): void
     {
         $config = new Memory([
             'name' => 'test',
@@ -64,18 +64,17 @@ class ProjectBuilderTest extends TestCase
 
         $project = $this->builder->build($config);
 
-        $this->assertTrue($project instanceof Project);
+        self::assertTrue($project instanceof Project);
 
         $recipe = $project->getRecipe();
-        $this->assertTrue($recipe instanceof Recipe);
-        $this->assertCount(1, $recipe->peclExtensions());
+        self::assertTrue($recipe instanceof Recipe);
+        self::assertCount(1, $recipe->peclExtensions());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testBuildWithUnknownExtensions()
+    public function testBuildWithUnknownExtensions(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $config = new Memory([
             'name' => 'fail',
             'php/version' => 7,

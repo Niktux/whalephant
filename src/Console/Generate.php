@@ -2,6 +2,7 @@
 
 namespace Whalephant\Console;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,7 +12,7 @@ use Whalephant\Services\Generator;
 
 class Generate extends AbstractCommand
 {
-    private
+    private Generator
         $generator;
     
     public function __construct(Generator $generator)
@@ -28,7 +29,7 @@ class Generate extends AbstractCommand
             ->addArgument('directory', InputArgument::REQUIRED, 'directory where whalephant.yml is located and where Dockerfile must be generated');
     }
 
-    protected function doExecute(InputInterface $input, OutputInterface $output): void
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Generating Dockerfile ...');
         
@@ -41,11 +42,13 @@ class Generate extends AbstractCommand
         
         $fs = new Filesystem(new Local($directory));
         
-        if(! $fs->has(\Whalephant\Application::WHALEPHANT_FILENAME))
+        if(! $fs->has(\Whalephant\Container::WHALEPHANT_FILENAME))
         {
-            throw new \InvalidArgumentException(\Whalephant\Application::WHALEPHANT_FILENAME . " is missing");
+            throw new \InvalidArgumentException(\Whalephant\Container::WHALEPHANT_FILENAME . " is missing");
         }
         
         $this->generator->generate($fs);
+
+        return Command::SUCCESS;
     }
 }

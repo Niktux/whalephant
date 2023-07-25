@@ -6,13 +6,15 @@ namespace Whalephant\Model;
 
 class Php
 {
-    public
-        $version,
+    public string
+        $version;
+    public int|bool
         $major,
         $minor,
-        $patch,
+        $patch;
+    public string
         $variant;
-    
+
     public function __construct(string $version = '7', string $variant = 'cli')
     {
         [$this->major, $this->minor, $this->patch] = $this->extractDetailsFromVersion($version);

@@ -1,8 +1,8 @@
 name: whalephant-test
 php: 
-    version: 7.1
+    version: 8.2
     variant: cli
 extensions:
-    - xdebug
+    - xdebug:3.2.2
 ini:
     - "error_reporting=E_ALL;"

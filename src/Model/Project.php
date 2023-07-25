@@ -6,10 +6,12 @@ namespace Whalephant\Model;
 
 class Project
 {
-    private
-        $name,
+    private string
+        $name;
+    private array
         $recipes,
-        $extensions,
+        $extensions;
+    private Php
         $php;
     
     public function __construct(string $name, Php $php)

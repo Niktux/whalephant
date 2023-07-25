@@ -8,7 +8,7 @@ use Puzzle\Pieces\ConvertibleToString;
 
 final class PeclInstallationMode implements ConvertibleToString
 {
-    private
+    private string
         $value;
 
     public function __construct(string $value)

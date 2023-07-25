@@ -3,30 +3,30 @@
 namespace Whalephant\Services;
 
 use PHPUnit\Framework\TestCase;
-use Whalephant\Application;
+use Whalephant\Container;
 use Puzzle\Configuration\Memory;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\InMemory;
 
 class GeneratorTest extends TestCase
 {
-    private
+    private Generator
         $generator;
     
-    protected function setUp()
+    protected function setUp(): void
     {
-        $container = new Application(new Memory([
+        $container = new Container(new Memory([
             'app/var.path' => 'var',
         ]), __DIR__ . '/../..');
         
         $this->generator = new Generator($container['project.builder'], $container['twig']);
     }
     
-    public function testGenerate()
+    public function testGenerate(): void
     {
         $fs = new Filesystem(new InMemory());
         
-        $fs->write(Application::WHALEPHANT_FILENAME, <<<YAML
+        $fs->write(Container::WHALEPHANT_FILENAME, <<<YAML
 name: test
 php:
     version: 5.6
@@ -40,11 +40,10 @@ YAML
         $this->assertTrue($fs->has('php.ini'));
     }
     
-    /**
-     * @expectedException \Exception
-     */
-    public function testGenerateMissingWhalephantFile()
+    public function testGenerateMissingWhalephantFile(): void
     {
+        $this->expectException(\Exception::class);
+
         $this->generator->generate(new Filesystem(new InMemory()));
     }
 }

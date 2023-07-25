@@ -13,7 +13,7 @@ class ProjectBuilder
 {
     private const EXTENSION_SEPARATOR = ':';
     
-    private
+    private ExtensionProvider
         $extensionProvider;
     
     public function __construct(ExtensionProvider $extensionProvider)

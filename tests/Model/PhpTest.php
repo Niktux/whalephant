@@ -21,7 +21,7 @@ class PhpTest extends TestCase
         );
     }
     
-    public function providerTestGreaterOrEqualThan(): array
+    public static function providerTestGreaterOrEqualThan(): array
     {
         return [
             ['7', null, true],
@@ -83,8 +83,8 @@ class PhpTest extends TestCase
             $php->isLowerOrEqualThan($toCompare)
         );
     }
-    
-    public function providerTestLowerOrEqualThan(): array
+
+    public static function providerTestLowerOrEqualThan(): array
     {
         return [
             ['7', '7', true],

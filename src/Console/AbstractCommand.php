@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractCommand extends Command
 {
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $app = $this->getApplication();
         
@@ -17,8 +17,8 @@ abstract class AbstractCommand extends Command
             $output->writeln($app->getLogo());
         }
 
-        $this->doExecute($input, $output);
+        return $this->doExecute($input, $output);
     }
         
-    abstract protected function doExecute(InputInterface $input, OutputInterface $output): void;
+    abstract protected function doExecute(InputInterface $input, OutputInterface $output): int;
 }

@@ -1,6 +1,6 @@
-FROM php:7.1-cli
+FROM php:8.2-cli
 
-RUN pecl install xdebug-2.5.0 \
+RUN pecl install xdebug-3.2.2 \
     && docker-php-ext-enable xdebug
 
 COPY php.ini /usr/local/etc/php/conf.d
