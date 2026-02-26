@@ -22,6 +22,7 @@ endif
 -include vendor/onyx/core/wizards.mk
 include makefiles/composer.mk
 include makefiles/commands.mk
+include makefiles/docker.mk
 include makefiles/phpunit.mk
 include makefiles/phar.mk
 
