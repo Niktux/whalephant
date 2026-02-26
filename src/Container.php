@@ -15,7 +15,7 @@ class Container extends \Pimple\Container
 
     public const
         WHALEPHANT_FILENAME = 'whalephant.yml',
-        VERSION = '8.2.0';
+        VERSION = '8.2.1';
 
     public function __construct(Configuration $configuration, string $rootDir)
     {
